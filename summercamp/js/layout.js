@@ -1,4 +1,7 @@
-//swiper image gallery
+// swiper
+import Swiper from 'swiper';
+
+/* ---------- swiper image gallery ---------- */
 let gallery = new Swiper(".swiper-container", {
 
   loop: true,
@@ -15,7 +18,7 @@ let gallery = new Swiper(".swiper-container", {
 
 });
 
-//APP download button for mobile
+/* ---------- APP download button for mobile ---------- */
 let trigger = document.getElementById("hamburger");
 let menu = document.querySelector(".download");
 let overlay = document.getElementById("downloadOverlay");
@@ -28,7 +31,7 @@ document.querySelectorAll(".download--btn").forEach(function(element){
   element.addEventListener("click",hideDownloadMenu,false);
 });
 
-//toggle download menu
+// toggle download menu
 function toggleDownloadMenu(){
 
   if(menu.classList.contains("open")){
@@ -42,10 +45,9 @@ function toggleDownloadMenu(){
   }
 }
 
-//hide download menu
+// hide download menu
 function hideDownloadMenu(){
   trigger.classList.remove("active");
   menu.classList.remove("open");
   overlay.classList.remove("active");
 }
-
