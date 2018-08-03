@@ -1,0 +1,320 @@
+@charset "utf-8";
+/* ---------- reset ---------- */
+body,dl,dt,dd,ul,ol,li,th,td,form,input,textarea,p {margin:0; padding:0;}
+img {display:block; border:0;}
+li {list-style:none}
+sup {vertical-align:text-top;}
+sub {vertical-align:text-bottom;}
+article,aside,canvas,figure,figure img,figcaption,footer,header,hgroup,menu,nav,section,audio,video {display:block; margin:0; padding:0;}
+
+/* ---------- common ---------- */
+html {overflow-y:scroll;}
+body {text-align:center; font-size:16px; line-height:1.7; 
+font-family:"微軟正黑體", "Microsoft JhengHei", sans-serif; color:#111939;
+background-color:#f4f3ef;
+}
+h1,h2,h3,h4,h5,h6 {margin:0;}
+p {text-align:justify; text-justify:distribute;}
+p+p {margin-top:10px;}
+a {outline:none; text-decoration:none;}
+input {vertical-align:middle;}
+
+pre {
+white-space: pre-wrap;       /* css-3 */
+white-space: -moz-pre-wrap;  /* Mozilla, since 1999 */
+white-space: -pre-wrap;      /* Opera 4-6 */
+white-space: -o-pre-wrap;    /* Opera 7 */
+word-wrap: break-word;       /* Internet Explorer 5.5+ */    
+overflow:hidden;
+}
+
+.outerWpr {position:relative; min-height:100vh;
+text-align:left;    
+display:flex; flex-direction:column;
+}
+.centerwpr {max-width:720px; padding:0 20px; margin:0 auto;
+position:relative; box-sizing:border-box;
+}
+
+/* ---------- header ---------- */
+.header {width:100%; height:44px; position:relative;
+background:linear-gradient(to right, #882da8 0%,#3d4dda 50%,#087ad5 100%);   
+position:fixed; left:0; top:0; z-index:9999;
+}
+.header .centerwpr {height:100%; max-width:1170px;}
+.header .centerwpr:after {content:""; display:table; clear:both;}
+.header--logo {width:144px; height:100%; position:relative; float:left;
+background-image:url("../images/logo.png"); background-repeat:no-repeat;
+background-size:auto 32px; background-position:left center;
+}
+.header--logo:after {content:""; display:block; width:100px; height:100%;
+position:absolute; right:0; top:0;
+background-image:url("../images/yeeebang.png"); background-repeat:no-repeat;
+background-size:auto 28px; background-position:left 8px;
+}
+
+/* ---------- download btn ---------- */
+.download {float:right; height:100%;
+display:flex; justify-content:space-between; align-items:center;
+color:#fff;
+}
+.download--btn {padding:5px 10px 5px 8px;
+color:#fff; font-size:13px; font-weight:bold;
+border-radius:4px;
+background-color:#03bdcc;
+display:flex; justify-content:center; align-items:center;
+position:relative;
+}
+.download--btn:hover {background-color:#111939;}
+.download--btn+.download--btn {margin-left:8px;}
+.download .txt {margin-right:10px; font-size:15px;
+position:relative;
+}
+
+.download--btn .fab {margin-right:5px;}
+.download--btn .fa-apple {font-size:20px;}
+.download--btn .fa-google-play {font-size:16px; position:relative; top:1px;}
+
+/* ---------- downloag btn mobile ---------- */
+#hamburger {width:70px; height:100%; position:absolute; right:0; top:0;
+cursor:pointer; z-index:980;
+display:none;
+}
+.hamburger--icon {width:26px; height:3px; pointer-events:none;
+position:absolute; left:50%; top:50%; margin:-1px 0 0 -13px;
+background-color:#fff; border-radius:3px;
+}
+.hamburger--icon:before,
+.hamburger--icon:after {content:""; display:block;
+width:26px; height:3px;
+position:absolute;
+background-color:#fff; border-radius:3px;
+}
+.hamburger--icon:before {top:-9px;}
+.hamburger--icon:after {bottom:-9px;}
+
+.active .hamburger--icon {height:4px; margin-top:-2px;
+transform:rotate(45deg);    
+}
+.active .hamburger--icon:after {display:none;}
+.active .hamburger--icon:before {width:4px; height:26px;
+left:50%; top:50%; margin:-13px 0 0 -2px;
+}
+
+#downloadOverlay {width:100%; height:100%;
+position:fixed; left:0; top:0; z-index:970;
+display:none;
+}
+#downloadOverlay.active {display:block;}
+
+/* ---------- footer ---------- */
+.footer {position:relative; flex-shrink:0;    
+min-height:26px; padding-top:6px; padding-bottom:6px;
+display:flex; justify-content:center; align-items:center;    
+background-color:#111939;
+}
+.footer--rights {text-align:center; font-size:13px; color:#fff;
+line-height:1.2;
+}
+
+/* ---------- main ---------- */
+.main {flex:1; padding-top:44px;}
+
+/* main: header */
+.main--header {    
+background-color:#fff;
+box-shadow:0 2px 4px rgba(0,0,0,0.1); 
+}
+.main--header .centerwpr {padding-top:15px; padding-bottom:15px;
+display:flex; justify-content:flex-start; align-items:center;
+}
+
+.main--avatar {width:80px; height:80px; margin-right:15px;
+border-radius:50%; overflow:hidden; flex-shrink:0;
+}
+.main--avatar img {width:100%;}
+
+.main--head h1 {font-size:24px; line-height:1.1; margin-bottom:6px;}
+.main--head h2 {font-size:16px; color:#999; line-height:1.1;}
+
+/* main: content */
+.main--content .centerwpr {padding-top:40px; padding-bottom:40px;
+overflow:hidden;
+}
+.main section+section {margin-top:30px; padding-top:30px;
+border-top:4px solid rgba(0,0,0,.04);
+}
+.main--content h2 {margin-bottom:20px;
+font-size:21px; line-height:1;
+}
+
+p+ul, p+ol {margin-top:20px;}
+ul+p, ol+p {margin-top:20px;}
+.main--content li+li {margin-top:4px;}
+.main--content ul li:before {
+display:inline-block; margin-right:10px;
+font-style:normal; font-variant:normal; text-rendering:auto;
+-webkit-font-smoothing:antialiased;
+font-family:"Font Awesome 5 Free"; 
+content:"\f22d";
+font-size:18px; color:#029ce5;    
+}
+
+.main--content ol {counter-reset:list;}
+.main--content ol li:before {
+counter-increment:list;    
+content:counter(list, decimal) ".";  
+color:#029ce5; font-weight:bold; margin-right:10px;
+}
+
+.main--content h2:before {position:relative;
+display:inline-block; margin-right:10px;
+font-style:normal; font-variant:normal; text-rendering:auto;
+-webkit-font-smoothing:antialiased;
+font-family:"Font Awesome 5 Free"; 
+content:"\f105";
+font-size:23px;
+}
+
+.main--content a {color:#007aff; padding:0 4px;
+border-bottom:1px dotted #007aff;
+overflow-wrap:break-word; word-wrap:break-word;
+}
+.main--content a:hover {
+background-color:#03bdcc; color:#fff;    
+}
+
+/* coupon */
+.coupon {padding:15px; color:#fff;
+display:flex; justify-content:flex-start; align-items:center;
+background-color:#111939; margin-bottom:30px;
+border-radius:8px;
+box-shadow:0 2px 4px rgba(0,0,0,0.05); 
+background:linear-gradient(to right, #4756d2 0%,#0c7cdd 100%); 
+}
+
+.coupon--icon {width:60px; height:60px; margin-right:16px;
+flex-shrink:0;
+}
+.coupon--icon img {width:100%;}
+
+.coupon h2 {margin-bottom:4px;}
+.main--content .coupon h2:before {margin-right:6px;
+content:"\f05a"; font-size:20px;
+}
+
+/* swiper */
+.swiper-slide img {max-width:100%; max-height:100%; margin:0 auto;}
+
+/* App store */
+.store {
+background-color:#f9f8f6; border-top:1px solid #eae9e6;
+}
+.store .centerwpr {padding-top:25px; padding-bottom:25px;
+display:flex; justify-content:space-between; align-items:center;
+}
+.qrcode {flex-shrink:0; position:relative;}
+.qrcode img {width:120px; height:120px;
+border:12px solid #fff; margin-bottom:0px;
+box-shadow:0 0 3px rgba(0,0,0,.1);
+}
+.qrcode p {
+font-size:14px; font-weight:bold; text-align:center;
+}
+.qrcode .fab {margin-right:6px; font-size:14px;}
+.qrcode .fa-apple {font-size:16px;}
+
+.store--intro {position:relative;}
+.store--intro p {padding:0 20px;}
+.store--intro p {text-align:center; font-size:15px; line-height:1.5;}
+.store--intro p strong {font-size:20px;}
+.store--intro p.mobile {margin-bottom:10px; margin-top:0; padding:0;
+display:none;
+}
+
+.fa-search {position:absolute; left:50%; top:50%;
+margin:-50px 0 0 -50px;    
+font-size:100px; color:#eae9e6; opacity:0.3;
+}
+
+.btn-container {display:none; justify-content:center; align-items:center;}
+.store .download--btn {padding:9px 14px 9px 14px;}
+.store .download--btn:hover {background-color:#111939;}
+.store .download--btn.apple {margin-bottom:0; margin-right:15px;}
+
+/* ---------- breadcrumb ---------- */
+.breadcrumb {padding:4px 0;
+font-size:14px;
+background-color:#202340; border-bottom:1px solid #eae9e6;
+}
+.breadcrumb ul {display:flex; align-items:center;}
+.breadcrumb li {display:inline-flex; align-items:center; flex-shrink:0;}
+.breadcrumb li+li:before {content:""; display:block; margin:0 4px;    
+width:10px; height:20px;
+background-image:url("../images/icon.png"); background-repeat:no-repeat;
+background-size:14px auto; background-position:2px 5px;
+opacity:0.8;
+}
+.breadcrumb a {display:block; color:#dededd;}
+.breadcrumb a:hover {color:#fff;}
+
+/* ---------- response ---------- */
+@media screen and (max-width: 600px) {
+
+    .header {position:relative; left:auto; top:auto; z-index:auto;}
+    .main {padding-top:0;}
+    .main--head h1 {font-size:22px;}
+    #hamburger {display:block;}
+    .download {flex-direction:column; z-index:990;
+        justify-content:center; align-items:stretch;
+        height:auto; float:none; padding:8px 14px 16px 14px;
+        position:absolute; right:10px; top:38px;
+        background-color:#111939; border-radius:4px;
+        opacity:0; visibility:hidden; pointer-events:none;
+        transition:400ms; transition-property:opacity,top,visibility;
+    }
+    .download.open {
+        top:48px;
+        opacity:1; visibility:visible; pointer-events:auto;
+    }
+    .download:before {content:""; display:block;
+        width:0; height:0; border-style:solid;
+        border-width:0 8px 8px 8px;
+        border-color:transparent transparent #111939 transparent;
+        position:absolute; top:-8px; right:17px;
+    }
+    .download--btn {justify-content:flex-start;}
+    .download--btn:hover {background-color:#097b91;}
+    .download--btn.apple {margin-bottom:15px;}
+    .download--btn.google {margin-left:0;}
+    .download .txt {margin-right:0; margin-bottom:8px; display:block;
+        font-size:14px; text-align:center;
+    }
+
+    /* App store */
+    .store .qrcode,
+    .store .fa-search,
+    .store p.desktop {display:none;}
+
+    .store .centerwpr {display:block;
+        padding-top:20px; padding-bottom:20px;
+    }
+    .store--intro p.mobile {display:block;}
+    .btn-container {display:flex;}
+
+
+
+}
+
+@media screen and (max-width: 400px) {
+
+    .main--head h1 {font-size:21px;}
+    .main--content h2 {font-size:20px;}
+    .coupon--content p {font-size:15px; line-height:1.2;}
+
+}
+
+@media screen and (max-width: 350px) {
+
+    .centerwpr {padding-left:15px; padding-right:15px;}
+}
