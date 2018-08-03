@@ -1,13 +1,13 @@
 const path = require("path");
 
 module.exports = {
-  entry: "./js/layout.js",
+  entry: "./src",
   output: {    
     path: path.resolve(__dirname, "dist"),
     filename: "[name].bundle.js"
   },
 
-  mode: "production", // "production" | "development" | "none"
+  mode: "development", // "production" | "development" | "none"
   watch: true,
 
   module: {
@@ -16,7 +16,7 @@ module.exports = {
         test: /\.js$/,
         loader: "babel-loader",
         exclude: /node_modules/
-      }
+      }      
     ]
   }
 };

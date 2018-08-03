@@ -1,0 +1,32 @@
+[
+  {    
+    "averageRating": 3.5,
+    "maxRating": 5,
+    "ratingAmount": 660,
+    "reviewAmount": 120,    
+    "starAmount": [20, 40, 118, 224, 258]
+  },
+  [
+    {
+      "userName": "Alice",
+      "date": "2018/8/5",
+      "rating": "4",
+      "review": "很好的夏令營課程，孩子很喜歡，明年一定還要報。"
+    },
+
+    {
+      "userName": "Manu",
+      "date": "2018/8/4",
+      "rating": "3",
+      "review": "還不錯，午餐吃的普普通通，還有進步的空間。"
+    },
+
+    {
+      "userName": "Linda",
+      "date": "2018/8/3",
+      "rating": "5",
+      "review": "很喜歡活動的氣氛，安全設施也很完善，推薦給大家。"
+    }
+
+  ]
+]

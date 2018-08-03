@@ -5,16 +5,10 @@
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
 <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
 <title>才藝幫 yeeebang | 學習才藝的好幫手</title>
-<!-- Font Awesome 5.0.10 -->
-<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.10/css/solid.css" integrity="sha384-HTDlLIcgXajNzMJv5hiW5s2fwegQng6Hi+fN6t5VAcwO/9qbg2YEANIyKBlqLsiT" crossorigin="anonymous">
-<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.10/css/brands.css" integrity="sha384-KtmfosZaF4BaDBojD9RXBSrq5pNEO79xGiggBxf8tsX+w2dBRpVW5o0BPto2Rb2F" crossorigin="anonymous">
-<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.10/css/fontawesome.css" integrity="sha384-8WwquHbb2jqa7gKWSoAwbJBV2Q+/rQRss9UXL5wlvXOZfSodONmVnifo/+5xJIWX" crossorigin="anonymous">
-<!-- Font Awesome 5.0.10 -->
-<!-- swiper -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.2.2/css/swiper.min.css">
-<!-- swiper -->
-<link rel="stylesheet" href="css/summercamp.css" />
 
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css" integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ" crossorigin="anonymous">
+<link rel="stylesheet" href="css/plugin.css" />
+<link rel="stylesheet" href="css/summercamp.css" />
 </head>
 <body>
 <div class="outerWpr">
@@ -83,7 +77,27 @@
                 <ul>
                     <li><strong>時間型態：</strong>半天 / 整天 / 過夜</li>
                     <li><strong>類別：</strong>學習 / 運動 / 戶外活動</li>
-                    <li><strong>年齡：</strong>國小</li>      
+                    <li><strong>年齡：</strong>國小</li>   
+                    <li>
+                        <strong>評分：</strong>
+                        <div class="star-container">
+                            <div class="star-wpr unchecked">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                            </div>
+                            <div class="star-wpr checked" id="ratingStar">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                            </div>                            
+                        </div>
+                        <p id="ratingSum"></p>
+                    </li>   
                 </ul>
             </section>  
 

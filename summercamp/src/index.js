@@ -1,5 +1,6 @@
-// swiper
+// plugins
 import Swiper from 'swiper';
+import superagent from 'superagent';
 
 /* ---------- swiper image gallery ---------- */
 let gallery = new Swiper(".swiper-container", {
@@ -50,4 +51,23 @@ function hideDownloadMenu(){
   trigger.classList.remove("active");
   menu.classList.remove("open");
   overlay.classList.remove("active");
+}
+
+/* ---------- rating ---------- */
+superagent.get('../data/rating.json')
+.then(res => {
+  const data = JSON.parse(res.text);
+  showRating(data[0]);
+})
+.catch(err => {   
+   console.log(err);
+});
+
+const showRating = (data) => {
+
+  const average = data.averageRating;
+  let max = data.maxRating;
+  
+  document.getElementById('ratingStar').style.width = `${(average / max) * 100}%`;
+  document.getElementById('ratingSum').textContent = `${average} (共 ${data.ratingAmount} 個評分)`;
 }
