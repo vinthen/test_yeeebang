@@ -2,6 +2,13 @@
 import Swiper from 'swiper';
 import superagent from 'superagent';
 
+// rating
+import {
+  ratingStarChart,
+  showRating,  
+  ratingSection
+} from './rating';
+
 /* ---------- swiper image gallery ---------- */
 let gallery = new Swiper(".swiper-container", {
 
@@ -57,17 +64,15 @@ function hideDownloadMenu(){
 superagent.get('../data/rating.json')
 .then(res => {
   const data = JSON.parse(res.text);
-  showRating(data[0]);
+  
+  // basic info: rating
+  showRating(data[0],document.querySelector('.basic-info ul'),'li');
+
+  // rating and review section
+  ratingSection(data,document.querySelector('.main--content .centerwpr'));
 })
 .catch(err => {   
    console.log(err);
 });
 
-const showRating = (data) => {
 
-  const average = data.averageRating;
-  let max = data.maxRating;
-  
-  document.getElementById('ratingStar').style.width = `${(average / max) * 100}%`;
-  document.getElementById('ratingSum').textContent = `${average} (共 ${data.ratingAmount} 個評分)`;
-}

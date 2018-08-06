@@ -1,10 +1,10 @@
 [
   {    
-    "averageRating": 3.5,
+    "averageRating": 3.6,
     "maxRating": 5,
     "ratingAmount": 660,
     "reviewAmount": 120,    
-    "starAmount": [20, 40, 118, 224, 258]
+    "starAmount": [258, 224, 118, 40, 20]
   },
   [
     {
