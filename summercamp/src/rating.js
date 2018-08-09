@@ -54,8 +54,8 @@ export const ratingStarChart = (average,max) => {
 /* ---------- basic info rating star ---------- */
 export const showRating = (data,wrapper,element) => {
 
-    let average = data.averageRating;
-    let max = data.maxRating;
+    let average = data.average;
+    let max = data.stars.length;
     
     if(average > max){
         average = max;
@@ -65,17 +65,16 @@ export const showRating = (data,wrapper,element) => {
     
     el.innerHTML = 
     `<strong>評分：</strong>
-    <p id="ratingSum">${average} / ${max}<span class="sum">（${data.ratingAmount} 個評分）</span></p>
+    <p id="ratingSum">${average} / ${max}<span class="sum">（${data.counts} 個評分）</span></p>
     <a id="ratingTrigger">我要評分</a>
     `;
     
     wrapper.appendChild(el);
     
     // insert average rating star
-    const ratingSum = document.getElementById('ratingSum');
-    const parentDiv = ratingSum.parentNode;
+    const ratingSum = el.querySelector('#ratingSum');
     
-    parentDiv.insertBefore(
+    el.insertBefore(
         ratingStarChart(average,max),
         ratingSum
     );
@@ -86,13 +85,23 @@ export const showRating = (data,wrapper,element) => {
 /* ---------- create rating and review section ---------- */
 export const ratingSection = (data,wrapper) => {
 
-    const ratingData = data[0];
-    const reviewData = data[1];    
+    // rating data
+    // const ratingData = data[0];
+    
+    // review data
+    const reviewAmount = data.list.length;
+    let reviewData = 0;
+    
+    if(reviewAmount > 0) {
+        reviewData = data.list;
+    }
+    
 
     const sectionwpr = document.createElement('section');
     sectionwpr.classList.add('review');
+    sectionwpr.id = 'reviewSection';
 
-    sectionwpr.innerHTML = '<h2>Rating & Review Section</h2>';
+    sectionwpr.innerHTML = '<h2>家長評分與評論</h2>';
 
     wrapper.appendChild(sectionwpr);
 
@@ -100,15 +109,15 @@ export const ratingSection = (data,wrapper) => {
     const ratingwpr = document.createElement('div');
     ratingwpr.classList.add('ratingSummary');
 
-    let average = ratingData.averageRating;
-    let max = ratingData.maxRating;
+    let average = data.average;
+    let max = data.stars.length;  
     
     if(average > max){
         average = max;
     }
 
-    const ratingAmount = ratingData.ratingAmount;
-    const starAmount = ratingData.starAmount;
+    const ratingAmount = data.counts;
+    const starAmount = data.stars.reverse(); // [5星, 4星 ,3星, 2星, 1星]
 
     ratingwpr.innerHTML = 
     `<div class="ratingSummary--avg">
@@ -163,5 +172,27 @@ export const ratingSection = (data,wrapper) => {
 
 
     // review
+    const reviewContainer = document.createElement('div');
+    reviewContainer.classList.add('reviewContainer');
+
+    reviewContainer.innerHTML = '<h3>評論</h3>';
+
+    sectionwpr.appendChild(reviewContainer);
+
+    if(reviewAmount == 0){
+        console.log('尚無評論');
+        const hint = document.createElement('div');
+        hint.classList.add('reviewEntry');
+        hint.innerHTML = 
+        `<p>目前尚無評論</p>`;
+
+        reviewContainer.appendChild(hint);
+
+    } else {
+        console.log(reviewData);
+    }
+
+
+
 
 }

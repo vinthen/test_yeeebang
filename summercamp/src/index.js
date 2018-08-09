@@ -61,8 +61,35 @@ function hideDownloadMenu(){
 }
 
 /* ---------- rating ---------- */
-superagent.get('../data/rating.json')
+{
+  /*
+  average: 平勳分數
+  counts: 評分數量
+  stars (array): 1星 ~ 5 星的評分數量
+
+  list (array): review 內容
+  myreview: 已登入使用者的 review 內容
+  */
+
+  // basic info: rating
+  showRating(screviews,document.querySelector('.basic-info ul'),'li');
+
+  // rating and review section
+  ratingSection(screviews,document.querySelector('.main--content .centerwpr'));
+}
+
+document.querySelector('.star-container').addEventListener('click',() => {
+
+  document.getElementById('reviewSection').scrollIntoView({ 
+    behavior: 'smooth' 
+  });
+
+});
+
+/*
+superagent.get('./data/rating.json')
 .then(res => {
+
   const data = JSON.parse(res.text);
   
   // basic info: rating
@@ -70,9 +97,18 @@ superagent.get('../data/rating.json')
 
   // rating and review section
   ratingSection(data,document.querySelector('.main--content .centerwpr'));
+
+  document.querySelector('.star-container').addEventListener('click',() => {
+
+    document.getElementById('reviewSection').scrollIntoView({ 
+      behavior: 'smooth' 
+    });
+
+  });
+
 })
 .catch(err => {   
    console.log(err);
 });
-
+*/
 

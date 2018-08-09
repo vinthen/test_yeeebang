@@ -249,6 +249,7 @@ font-size:100px; color:#eae9e6; opacity:0.3;
 .breadcrumb {padding:4px 0;
 font-size:14px;
 background-color:#202340; border-bottom:1px solid #eae9e6;
+padding:0; height:0; overflow:hidden; line-height:0; font-size:0; border-bottom:none;
 }
 .breadcrumb ul {display:flex; align-items:center;}
 .breadcrumb li {display:inline-flex; align-items:center; flex-shrink:0;}
@@ -291,7 +292,7 @@ image-rendering: -moz-crisp-edges;
 .ratingSummary--avg {margin-right:30px;}
 .ratingSummary--avg__number {margin-bottom:12px;
 font-size:70px; font-weight:bold; letter-spacing:1px; text-align:center;
-line-height:1;
+line-height:1; color:#0e315a;
 }
 
 .ratingSummary--rates {flex:1;}
@@ -302,7 +303,7 @@ line-height:1;
 background-color:#dedfe0;
 }
 .rates--bar {height:100%;
-background-color:#a1a7b3;
+background-color:#0492e0;
 } 
 .rates--percent {}
 
@@ -313,6 +314,16 @@ background-size:18px auto; background-position:0 2px;
 image-rendering: -moz-crisp-edges;
 }
 .rates--star .star.checked {background-position:0 bottom;}
+
+/* review section */
+.reviewContainer {padding-top:25px;}
+.reviewContainer h3 {padding-bottom:10px;
+border-bottom:2px solid rgba(0,0,0,.04);
+}
+
+.reviewEntry {padding:10px 0;}
+
+
 
 
 /* ---------- response ---------- */
