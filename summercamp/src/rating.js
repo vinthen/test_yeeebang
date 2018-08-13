@@ -13,7 +13,13 @@ export const ratingStarChart = (average,max) => {
     // 小數點前，完整的星星數
     let fullStar = scoreArr[0];
     // 小數點後，部分星星
-    const partStar = scoreArr[1];
+    let partStar = null;
+    if(scoreArr.length > 1) {
+        partStar = scoreArr[1];
+    }  
+    
+    // console.log(fullStar);
+    // console.log(partStar);
 
     const container = document.createElement("div");
     container.classList.add("star-container");
@@ -35,7 +41,11 @@ export const ratingStarChart = (average,max) => {
             for(let i = 0; i <= fullStar*1; i++){
                 starwpr[i].classList.add('checked');
             }
-            starwpr[fullStar*1].querySelector('i').style.width = `${(partStar / 10) * 100}%`;
+            if(partStar != null){
+                starwpr[fullStar*1].querySelector('i').style.width = `${(partStar / 10) * 100}%`;
+            } else {
+                starwpr[fullStar*1].querySelector('i').style.width = '0';
+            }
 
         } else if (average == max && average > 0) {
 
@@ -87,6 +97,9 @@ export const ratingSection = (data,wrapper) => {
 
     // rating data
     // const ratingData = data[0];
+
+    // 最大星星數
+    const maxStar = data.stars.length;
     
     // review data
     const reviewAmount = data.list.length;
@@ -180,7 +193,7 @@ export const ratingSection = (data,wrapper) => {
     sectionwpr.appendChild(reviewContainer);
 
     if(reviewAmount == 0){
-        console.log('尚無評論');
+        // 目前尚無評論  
         const hint = document.createElement('div');
         hint.classList.add('reviewEntry');
         hint.innerHTML = 
@@ -189,7 +202,59 @@ export const ratingSection = (data,wrapper) => {
         reviewContainer.appendChild(hint);
 
     } else {
-        console.log(reviewData);
+        // 顯示評論條目
+
+        // console.log(maxStar);
+
+        reviewData.forEach((listItem) => {
+
+            const reviewEntry = document.createElement('div');
+            reviewEntry.classList.add('reviewEntry');
+      
+            const date = formateDate(listItem.updated_at);
+
+            reviewEntry.innerHTML = 
+            `<div class="reviewEntry--avatar">
+                <img src="${listItem.avatar}" />              
+            </div>
+            <div class="reviewEntry--content">
+                <div class="user">
+                    <div class="name">${listItem.name}</div>
+                    <div class="user--group">
+                        <div class="rating"></div>                    
+                        <div class="date">${date}</div>
+                    </div>
+                </div>
+                <div class="text">${listItem.review}</div>
+            </div>`;
+
+            const rating = ratingStarChart(listItem.scores,maxStar);   
+
+            // reviewEntry.appendChild(rating);
+          
+            const ratingwpr = reviewEntry.querySelector('.rating');
+
+            ratingwpr.appendChild(rating);
+            // console.log(datewpr);
+
+            // reviewEntry.insertBefore(
+            //     ratingStarChart(listItem.scores,maxStar),
+            //     datewpr
+            // );
+
+            reviewContainer.appendChild(reviewEntry);
+        });
+    }
+
+    // 日期格式改為 2018/8/10
+    function formateDate(source){
+
+        const dataArray = source.split(' ');
+        const date = dataArray[0];
+        const dateArray = date.split('-');
+
+        return `${dateArray[0]}年${dateArray[1].replace(/^0+/, '')}月${dateArray[2].replace(/^0+/, '')}日`;
+
     }
 
 

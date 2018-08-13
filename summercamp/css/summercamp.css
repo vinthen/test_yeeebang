@@ -321,10 +321,23 @@ image-rendering: -moz-crisp-edges;
 border-bottom:2px solid rgba(0,0,0,.04);
 }
 
-.reviewEntry {padding:10px 0;}
+.reviewEntry {padding:15px 0;
+display:flex;
+}
+.reviewEntry--avatar {flex-shrink:0; margin-right:15px; padding-top:2px;}
+.reviewEntry--avatar img {width:50px; height:50px; border-radius:50%;}
 
+.reviewEntry--content {font-size:15px; line-height:1.5;}
+.reviewEntry--content .user {margin-bottom:5px;}
 
+.reviewEntry--content .name {font-size:16px; margin-right:10px; font-weight:bold;}
 
+.reviewEntry--content .user--group {display:flex; align-items:center; margin:6px 0;}
+.reviewEntry--content .rating {transform:scale(0.8); transform-origin:0 50%;}
+
+.reviewEntry--content .date {font-size:13px; color:#777; margin-left:-10px;
+position:relative; top:1px;
+}
 
 /* ---------- response ---------- */
 @media screen and (max-width: 600px) {
