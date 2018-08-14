@@ -13,13 +13,10 @@ export const ratingStarChart = (average,max) => {
     // 小數點前，完整的星星數
     let fullStar = scoreArr[0];
     // 小數點後，部分星星
-    let partStar = null;
+    let partStar = 0;
     if(scoreArr.length > 1) {
         partStar = scoreArr[1];
-    }  
-    
-    // console.log(fullStar);
-    // console.log(partStar);
+    }
 
     const container = document.createElement("div");
     container.classList.add("star-container");
@@ -40,12 +37,8 @@ export const ratingStarChart = (average,max) => {
 
             for(let i = 0; i <= fullStar*1; i++){
                 starwpr[i].classList.add('checked');
-            }
-            if(partStar != null){
-                starwpr[fullStar*1].querySelector('i').style.width = `${(partStar / 10) * 100}%`;
-            } else {
-                starwpr[fullStar*1].querySelector('i').style.width = '0';
-            }
+            }     
+            starwpr[fullStar*1].querySelector('i').style.width = `${(partStar / 10) * 100}%`;       
 
         } else if (average == max && average > 0) {
 
@@ -58,7 +51,7 @@ export const ratingStarChart = (average,max) => {
     },0);  
     
     return container; 
-}
+} // ratingStarChart
 
 
 /* ---------- basic info rating star ---------- */
@@ -89,7 +82,7 @@ export const showRating = (data,wrapper,element) => {
         ratingSum
     );
     
-}
+} //showRating
 
 
 /* ---------- create rating and review section ---------- */
@@ -192,6 +185,11 @@ export const ratingSection = (data,wrapper) => {
 
     sectionwpr.appendChild(reviewContainer);
 
+    const reviewEntrywpr = document.createElement('div');
+    reviewEntrywpr.classList.add('reviewEntrywpr');
+
+    reviewContainer.appendChild(reviewEntrywpr);
+
     if(reviewAmount == 0){
         // 目前尚無評論  
         const hint = document.createElement('div');
@@ -203,50 +201,59 @@ export const ratingSection = (data,wrapper) => {
 
     } else {
         // 顯示評論條目
-
-        // console.log(maxStar);
-
         reviewData.forEach((listItem) => {
 
-            const reviewEntry = document.createElement('div');
-            reviewEntry.classList.add('reviewEntry');
-      
-            const date = formateDate(listItem.updated_at);
+            createReviewEntry(listItem,reviewEntrywpr);
 
-            reviewEntry.innerHTML = 
-            `<div class="reviewEntry--avatar">
-                <img src="${listItem.avatar}" />              
-            </div>
-            <div class="reviewEntry--content">
-                <div class="user">
-                    <div class="name">${listItem.name}</div>
-                    <div class="user--group">
-                        <div class="rating"></div>                    
-                        <div class="date">${date}</div>
-                    </div>
-                </div>
-                <div class="text">${listItem.review}</div>
-            </div>`;
-
-            const rating = ratingStarChart(listItem.scores,maxStar);   
-
-            // reviewEntry.appendChild(rating);
-          
-            const ratingwpr = reviewEntry.querySelector('.rating');
-
-            ratingwpr.appendChild(rating);
-            // console.log(datewpr);
-
-            // reviewEntry.insertBefore(
-            //     ratingStarChart(listItem.scores,maxStar),
-            //     datewpr
-            // );
-
-            reviewContainer.appendChild(reviewEntry);
         });
     }
 
-    // 日期格式改為 2018/8/10
+    // 目前登入使用者的評論
+    if(data.myreview){
+        // console.log('目前登入使用者有評論');
+        const myreviewEntry = document.createElement('div');
+        myreviewEntry.classList.add('myreviewEntry');
+
+        createReviewEntry(data.myreview,myreviewEntry);
+
+        reviewContainer.insertBefore(myreviewEntry, reviewEntrywpr);
+
+    }
+
+
+    /* ----- 產生評論條目內容 ----- */
+    function createReviewEntry(data,container){
+
+        const reviewEntry = document.createElement('div');
+        reviewEntry.classList.add('reviewEntry');
+    
+        const date = formateDate(data.updated_at);
+
+        reviewEntry.innerHTML = 
+        `<div class="reviewEntry--avatar">
+            <img src="${data.avatar}" />              
+        </div>
+        <div class="reviewEntry--content">
+            <div class="user">
+                <div class="name">${data.name}</div>
+                <div class="user--group">
+                    <div class="rating"></div>                    
+                    <div class="date">${date}</div>
+                </div>
+            </div>
+            <div class="text">${data.review}</div>
+        </div>`;
+
+        // add rating star
+        const rating = ratingStarChart(data.scores,maxStar);          
+        const ratingwpr = reviewEntry.querySelector('.rating');
+        ratingwpr.appendChild(rating);    
+
+        container.appendChild(reviewEntry);
+
+    } // createReviewEntry
+
+    /* ----- 日期格式改為 2018/8/10 ----- */
     function formateDate(source){
 
         const dataArray = source.split(' ');
@@ -255,9 +262,6 @@ export const ratingSection = (data,wrapper) => {
 
         return `${dateArray[0]}年${dateArray[1].replace(/^0+/, '')}月${dateArray[2].replace(/^0+/, '')}日`;
 
-    }
+    } // formateDate
 
-
-
-
-}
+} // ratingSection

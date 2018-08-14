@@ -339,6 +339,106 @@ display:flex;
 position:relative; top:1px;
 }
 
+/* 目前登入使用者的評論 */ 
+.myreviewEntry {padding:10px 0;
+border-bottom:2px solid rgba(0,0,0,.04);
+}
+
+/* ---------- Modal ---------- */
+.modal {position:fixed; left:0; top:0;
+width:100%; height:100%; z-index:10000;
+display:flex; align-items:center; justify-content:center;
+display:none;
+}
+.modal.active {display:flex;}
+
+.modal--overlay {position:fixed; left:0; top:0;
+width:100%; height:100%;
+background-color:rgba(40,44,52,.6);
+}
+
+.modal--container {
+position:relative;    
+background-color:#f7f7f4; border-radius:6px;
+box-shadow:0 2px 6px rgba(0,0,0,0.1);
+}
+
+.modal--header,
+.modal--content,
+.modal--footer {padding:15px 20px;
+line-height:1.5;
+}
+
+.modal--header {
+/* text-align:center;     */
+background-color:#fff; border-radius:6px 6px 0 0;
+border-bottom:1px solid #dedfe0;
+}
+.modal h1 {font-size:21px; color:#111939; line-height:1.4;}
+/* .modal h3 {font-size:17px; color:#111939; line-height:1.4;} */
+
+/* ---------- Modal: Login ---------- */
+.login-btnwpr {padding:5px 0;}
+.loginbtn {display:block; height:50px; padding:0 20px;
+display:flex; align-items:center;
+color:#fff;
+border-radius:6px;
+}
+.loginbtn+.loginbtn {margin-top:15px;}
+.login-facebook {background-color:#2a4c9e;}
+.login-google {background-color:#e14432;}
+
+.loginbtn i {width:40px;
+font-size:18px;
+display:flex; justify-content:center; align-items:center;
+}
+
+
+#loginModal .userType {padding:10px 0 25px 0; margin-bottom:15px;
+text-align:center;
+border-bottom:1px solid #dedfe0;
+}
+
+#loginModal h3 {
+margin-bottom:10px;
+font-size:15px; color:#111939; line-height:1.4; text-align:left;
+}
+#loginModal h3 i {margin-right:6px;
+color:#e0645e; font-size:13px;
+position:relative; top:-1px;
+}
+
+#userTypeHint {padding:4px 15px;
+font-size:14px; color:#fff; text-align:center;
+background-color:#0f7add; border-radius:6px;
+position:relative; top:12px; display:none;
+}
+#userTypeHint:before {content:""; display:block;
+width:0; height:0; position:absolute; left:50%; top:-8px; margin-left:-8px;
+border-style:solid; border-width:0 8px 8px 8px;
+border-color:transparent transparent #0f7add transparent;
+}
+#userTypeHint.show {display:inline-block;}
+
+.userType .login-btnwpr {display:flex;}
+
+.loginTypeBtn {flex:1;
+display:flex; justify-content:center; align-items:center;
+cursor:pointer; height:50px;
+border:1px solid #dedfe0; background-color:#fff;
+}
+.loginTypeBtn+.loginTypeBtn {border-left:none;}
+
+.loginTypeBtn.normal {border-radius:6px 0 0 6px;}
+.loginTypeBtn.teacher {border-radius:0 6px 6px 0;}
+
+.loginTypeBtn:hover {background-color:#fbfbf9; border-color:#d1d1d1;}
+.loginTypeBtn.selected {background-color:#eeeff1; border-color:#d1d1d1;}
+
+/* ---------- Modal: trigger ---------- */
+#ratingTrigger {cursor:pointer;}
+
+
 /* ---------- response ---------- */
 @media screen and (max-width: 600px) {
 

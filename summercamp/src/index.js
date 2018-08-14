@@ -9,6 +9,14 @@ import {
   ratingSection
 } from './rating';
 
+// dialog
+import {
+  openModal,
+  closeModal,
+  loginModal,
+  reviewModal
+} from './dialog';
+
 /* ---------- swiper image gallery ---------- */
 let gallery = new Swiper(".swiper-container", {
 
@@ -62,15 +70,6 @@ function hideDownloadMenu(){
 
 /* ---------- rating ---------- */
 {
-  /*
-  average: 平勳分數
-  counts: 評分數量
-  stars (array): 1星 ~ 5 星的評分數量
-
-  list (array): review 內容
-  myreview: 已登入使用者的 review 內容
-  */
-
   // basic info: rating
   showRating(screviews,document.querySelector('.basic-info ul'),'li');
 
@@ -86,29 +85,19 @@ document.querySelector('.star-container').addEventListener('click',() => {
 
 });
 
-/*
-superagent.get('./data/rating.json')
-.then(res => {
+/* ---------- login ---------- */
+loginModal(
+  document.querySelector('.outerWpr')
+);
 
-  const data = JSON.parse(res.text);
-  
-  // basic info: rating
-  showRating(data[0],document.querySelector('.basic-info ul'),'li');
-
-  // rating and review section
-  ratingSection(data,document.querySelector('.main--content .centerwpr'));
-
-  document.querySelector('.star-container').addEventListener('click',() => {
-
-    document.getElementById('reviewSection').scrollIntoView({ 
-      behavior: 'smooth' 
-    });
-
-  });
-
-})
-.catch(err => {   
-   console.log(err);
+// 開啟
+document.querySelector('#ratingTrigger').addEventListener('click', () => {
+  openModal(document.getElementById('loginModal'));
 });
-*/
+
+
+
+/* ---------- user rating and review  ---------- */
+reviewModal();
+
 
