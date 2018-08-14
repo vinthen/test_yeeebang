@@ -8,7 +8,9 @@ export const openModal = (modal) => {
 /* ---------- Close Modal ---------- */
 export const closeModal = (modal) => {
 
-    modal.classList.remove('active');
+    if(modal.classList.contains('active')){
+        modal.classList.remove('active');
+    }   
 
 } // closeModal
 
@@ -70,12 +72,12 @@ export const loginModal = (container) => {
                 }
             });
          
-            btn.classList.add('selected');
+            event.target.classList.add('selected');
 
-            // 送出 user type 資訊 (不能在此時就送出)
+            // user type 資訊 (不能在此時就送出)
             // console.log(btn.dataset.userType);
 
-            const type = btn.dataset.userType;
+            const type = event.target.dataset.userType;
             let typeText = '';
 
             switch(type){
@@ -124,21 +126,168 @@ export const loginModal = (container) => {
 
     /* ----- 關閉 ----- */
     wrapper.querySelector('.modal--overlay').addEventListener('click',() => {
-
-        if(wrapper.classList.contains('active')){
-
-            // console.log('close modal');
-            wrapper.classList.remove('active');
-
-        }        
+        closeModal(wrapper);          
     });
 
 } // loginModal
 
 
 /* ---------- user rating and review ---------- */
-export const reviewModal = () => {
+export const reviewModal = (container,campName,autosize,StarRating) => {
 
-    // console.log('review modal test');
+    const wrapper = document.createElement('div');
+    wrapper.id = 'reviewModal';
+    wrapper.classList.add('modal');
+
+    wrapper.innerHTML = 
+    `<div class="modal--overlay"></div>
+    <div class="modal--container">
+        <div class="modal--header">
+            <h1>新增評分與評論</h1>
+            <h2>夏令營：${campName}</h2>
+        </div>
+        <div class="modal--content">  
+        
+            <h3>評分：<span id="userSelectRatingText">尚未評分</span></h3>
+            <div class="review--ratingwpr">
+                <form id="starRatingForm">
+                    <select class="star-rating">
+                        <option value="">Select a rating</option>
+                        <option value="5">Excellent</option>
+                        <option value="4">Very Good</option>
+                        <option value="3">Average</option>
+                        <option value="2">Poor</option>
+                        <option value="1">Terrible</option>
+                    </select>
+                </form>
+            </div>
+
+            <h3>評論：</h3>
+            <div class="review--textwpr">
+                <textarea id="reviewModalInput"></textarea>
+            </div>
+
+            <div class="revieiw--coupon">
+                <h4><i class="fas fa-thumbs-up"></i>評分夏令營送好康</h4>
+                <p>第一次評分夏令營且評論超過十個字，即贈送才藝幫點數 100 點，將可抵扣課程或活動費用！</p>
+                <div class="hint">您目前的字數：
+                    <span class="hint--count">0</span>
+                    <span class="hint--qualified">(已符合贈送資格)</span>
+                </div>
+            </div>
+        </div> 
+        <div class="modal--footer">                          
+            <div class="btnwpr">
+                <button class="cancel">取消</button>
+                <button class="submit">送出</button>           
+            </div>
+        </div>  
+
+    </div>
+    `;
+
+    container.appendChild(wrapper);
+
+    const maxStarValue = screviews.stars.length;
+    // console.log(maxStarValue);
+
+    // star rating
+    const starRatingEl = wrapper.querySelector('.star-rating');
+    let starRatingControls = new StarRating(starRatingEl,{ 
+        maxStars: maxStarValue,
+        showText: false
+    });
+
+    let userSelectRatingScore = 0;
+
+    let userSelectRatingText = wrapper.querySelector('#userSelectRatingText');
+
+    starRatingEl.addEventListener('change',(event) => {
+        userSelectRatingScore = event.target.value
+        // console.log(userSelectRatingScore);
+
+        if(userSelectRatingScore != ''){
+            userSelectRatingText.textContent = `${userSelectRatingScore} 星`;
+        } else {
+            userSelectRatingText.textContent = '尚未評分';
+        }
+    });
+
+
+    // 文字輸入框
+    const reviewModalInput = wrapper.querySelector('#reviewModalInput');
+
+    // autosize
+    autosize(reviewModalInput);
+
+    // 計算輸入的字數
+    const hintCount = wrapper.querySelector('.hint--count');
+    const hintQualified = wrapper.querySelector('.hint--qualified');
+
+    reviewModalInput.addEventListener('input', (event) => {
+
+        characterCountCheck(event);      
+
+    });
+
+    const characterCountCheck = (event) => {
+
+        // 去掉空白
+        let originValue = event.target.value;
+        let trimValue = originValue.replace(/\s+|　+/g,''); 
+
+        // 計算字數
+        let inputCount = trimValue.length;
+
+        hintCount.textContent = inputCount;
+        
+        if(inputCount > 10){
+            hintQualified.classList.add('show');
+        } else {
+            hintQualified.classList.remove('show');
+        }
+    }
+
+
+
+    /* ----- overlay 關閉 ----- */
+    wrapper.querySelector('.modal--overlay').addEventListener('click',() => {
+        closeModal(wrapper);
+    });
+
+    /* ----- 取消：關閉並清除已輸入的內容 ----- */
+    wrapper.querySelector('.cancel').addEventListener('click',() => {
+
+        // 清除星星
+        wrapper.querySelector('#starRatingForm').reset();
+        userSelectRatingScore = 0;
+        userSelectRatingText.textContent = '尚未評分';
+        
+        // 清除 textarea
+        reviewModalInput.value = '';
+        autosize.update(reviewModalInput);
+
+        closeModal(wrapper);
+    });
+
+    /* ----- 送出，關閉並送出已輸入的內容 ----- */
+    wrapper.querySelector('.submit').addEventListener('click',(event) => {        
+        
+        if(userSelectRatingScore >= 1 && reviewModalInput.value.length > 1){
+
+            console.log('評分數：' + userSelectRatingScore);
+            console.log('評論內容：' + reviewModalInput.value);
+
+            autosize.update(reviewModalInput);
+            closeModal(wrapper);     
+
+        } else {
+            event.preventDefault();
+            console.log('無內容或內容不完整');
+        }
+
+        
+    });
+
 
 } // reviewModal

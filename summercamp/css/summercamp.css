@@ -325,7 +325,11 @@ border-bottom:2px solid rgba(0,0,0,.04);
 display:flex;
 }
 .reviewEntry--avatar {flex-shrink:0; margin-right:15px; padding-top:2px;}
-.reviewEntry--avatar img {width:50px; height:50px; border-radius:50%;}
+.reviewEntry--avatar .imgwpr {width:50px; height:50px; border-radius:50%;
+background-color:#ebebe9; box-shadow:inset 0 0 2px #dedfe0;
+overflow:hidden;
+}
+.reviewEntry--avatar img {width:100%;}
 
 .reviewEntry--content {font-size:15px; line-height:1.5;}
 .reviewEntry--content .user {margin-bottom:5px;}
@@ -358,7 +362,8 @@ background-color:rgba(40,44,52,.6);
 }
 
 .modal--container {
-position:relative;    
+position:relative; min-width:300px; max-width:450px;
+margin:0 10px;
 background-color:#f7f7f4; border-radius:6px;
 box-shadow:0 2px 6px rgba(0,0,0,0.1);
 }
@@ -434,6 +439,74 @@ border:1px solid #dedfe0; background-color:#fff;
 
 .loginTypeBtn:hover {background-color:#fbfbf9; border-color:#d1d1d1;}
 .loginTypeBtn.selected {background-color:#eeeff1; border-color:#d1d1d1;}
+
+
+/* ---------- Modal: Rating and Review ---------- */
+#reviewModal .modal--header h2 {font-size:16px; margin-top:6px;}
+
+#reviewModal .modal--footer .btnwpr {
+display:flex; justify-content:flex-end; align-items:center;    
+}
+#reviewModal .modal--footer button {
+padding:0;
+font-family:inherit; font-size:15px;
+border-radius:0; box-shadow:none; border:none;
+background-color:transparent;
+cursor:pointer;
+}
+/* #reviewModal .modal--footer button+button {margin-left:5px;} */
+#reviewModal .modal--footer .submit {
+height:32px; padding:0 25px; margin-left:25px;   
+border-radius:6px; border:1px solid #02a9d4;
+background-color:#03bdcc; color:#fff;
+}
+#reviewModal .modal--footer .submit:hover {background-color:#02b2d0;}
+#reviewModal .modal--footer .cancel {
+color:#444;   
+}
+
+#reviewModal h3 {font-size:16px;}
+
+/* review rating */
+.review--ratingwpr {margin-bottom:20px; margin-top:4px;}
+
+/* review user input */
+.review--textwpr {padding:10px; margin:6px 0;
+background-color:#ededee; border:1px solid #dedfe0;
+border-radius:4px;
+}
+#reviewModalInput {width:100%; resize:none; max-height:200px;
+font-family:inherit; font-size:15px; line-height:inherit;
+background-color:transparent; border:none;
+}
+
+.revieiw--coupon {padding:15px 20px;
+font-size:15px; color:#fff;
+background-color:#0f7add; border-radius:6px;
+position:relative; top:12px;
+}
+.revieiw--coupon:before {content:""; display:block;
+width:0; height:0; position:absolute; left:30px; top:-8px;
+border-style:solid; border-width:0 8px 8px 8px;
+border-color:transparent transparent #0f7add transparent;
+}
+
+.revieiw--coupon h4 {margin-bottom:8px;
+font-size:17px;
+}
+.revieiw--coupon h4 i {margin-right:10px;
+position:relative; top:-1px;
+}
+.revieiw--coupon .hint {margin-top:12px; padding-top:8px;
+font-size:14px;
+border-top:1px dashed #c6dff7;
+}
+
+.hint--qualified {display:none; margin-left:4px;}
+.hint--qualified.show {display:inline;}
+
+/* 測試用 */
+/* #reviewModal {display:flex;} */
 
 /* ---------- Modal: trigger ---------- */
 #ratingTrigger {cursor:pointer;}

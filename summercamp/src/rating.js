@@ -69,7 +69,8 @@ export const showRating = (data,wrapper,element) => {
     el.innerHTML = 
     `<strong>評分：</strong>
     <p id="ratingSum">${average} / ${max}<span class="sum">（${data.counts} 個評分）</span></p>
-    <a id="ratingTrigger">我要評分</a>
+    <a id="ratingTrigger1">評分測試 (未登入)</a>
+    <a id="ratingTrigger2" style="margin-left:10px;">評分測試 (已登入)</a>
     `;
     
     wrapper.appendChild(el);
@@ -231,7 +232,9 @@ export const ratingSection = (data,wrapper) => {
 
         reviewEntry.innerHTML = 
         `<div class="reviewEntry--avatar">
-            <img src="${data.avatar}" />              
+            <div class="imgwpr">
+                <img src="${data.avatar}" />              
+            </div>
         </div>
         <div class="reviewEntry--content">
             <div class="user">

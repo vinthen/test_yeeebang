@@ -1,6 +1,9 @@
 // plugins
 import Swiper from 'swiper';
-import superagent from 'superagent';
+// import superagent from 'superagent';
+import autosize from 'autosize';
+// import * as StarRating from 'star-rating.js';
+const StarRating = require('star-rating.js');
 
 // rating
 import {
@@ -90,14 +93,39 @@ loginModal(
   document.querySelector('.outerWpr')
 );
 
+/* ---------- user rating and review  ---------- */
+reviewModal(
+  document.querySelector('.outerWpr'),
+  campName,
+  autosize,
+  StarRating
+);
+
 // 開啟
+/*
 document.querySelector('#ratingTrigger').addEventListener('click', () => {
+  
+  if(userLogin == false){
+    // 開啟 Login Modal
+    openModal(document.getElementById('loginModal'));
+  } else {
+    // 開啟 Rating and review Modal
+    openModal(document.getElementById('reviewModal'));
+  }  
+  
+});
+*/
+
+// 測試用
+document.querySelector('#ratingTrigger1').addEventListener('click', () => {
+  
   openModal(document.getElementById('loginModal'));
+  
 });
 
-
-
-/* ---------- user rating and review  ---------- */
-reviewModal();
-
+document.querySelector('#ratingTrigger2').addEventListener('click', () => {
+  
+  openModal(document.getElementById('reviewModal'));
+  
+});
 
