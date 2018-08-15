@@ -35,20 +35,31 @@ export const loginModal = (container) => {
                     <span id="userSelectedType"></span>
                 </h3>
                 <div class="login-btnwpr">
-                    <div class="loginTypeBtn normal" data-user-type="normal">一般</div>
-                    <div class="loginTypeBtn teacher" data-user-type="teacher">才藝班班主任</div>
+                    <div class="loginTypeBtn general" data-user-type="general">一般</div>
+                    <div class="loginTypeBtn manager" data-user-type="manager">才藝班班主任</div>
                 </div>                        
                 <div id="userTypeHint">您尚未選擇身分</div>
             </div>
             <div class="login-btnwpr socialLogin">
-                <a href="/auth/facebook" class="loginbtn login-facebook">
+                <a class="loginbtn login-facebook" id="loginbtnFB">
                     <i class="fab fa-facebook-f"></i>使用 Facebook 帳號登入
                 </a>
-                <a href="/auth/google" class="loginbtn login-google">
+                <a class="loginbtn login-google" id="loginbtnGoogle">
                     <i class="fab fa-google"></i>使用 Google 帳號登入
                 </a>
             </div>
-        </div>    
+        </div>  
+        <div class="modal--footer">
+            <div class="item">
+            <i class="fas fa-genderless"></i>
+                <p>以上登入只作為身分認證之用，我們不會在您的社群網站張貼任何文章。</p>
+            </div>
+            <div class="item">
+            <i class="fas fa-chevron-right"></i>
+                <p>登入即表示您同意<a id="loginModalLinkTerms" target="_blank">使用條款</a>，檢視<a id="loginModalLinkPrivacy" target="_blank">隱私權政策</a>。
+                </p>
+            </div>
+        </div>  
     </div>
     `;
 
@@ -58,9 +69,41 @@ export const loginModal = (container) => {
     let userSelectType = null;    
 
     const loginTypeBtns = wrapper.querySelectorAll('.loginTypeBtn');
+
+    /* ---------- */
+    // 條款與政策
+    const loginModalLinkTermsEl = wrapper.querySelector('#loginModalLinkTerms');
+    const loginModalLinkPrivacyEl = wrapper.querySelector('#loginModalLinkPrivacy');
+
+    // 一般條款的連結
+    let linkGeneralTerms = '/about/yeeebang_tc_terms?general';
+    let linkGeneralPrivacy = '/about/yeeebang_tc_rules?general';
+
+    // 班主任條款的連結
+    let linkManagerTerms = '/about/yeeebang_tc_terms?manager';
+    let linkManagerPrivacy = '/about/yeeebang_tc_rules?manager';
+
+    // 預設顯示一般條款連結
+    loginModalLinkTermsEl.href = linkGeneralTerms;
+    loginModalLinkPrivacyEl.href = linkGeneralPrivacy;
     
     // 沒有選擇身分別時的提示文字
     const userTypeHint = wrapper.querySelector('#userTypeHint');
+    /* ---------- */
+
+    /* ---------- */
+    // 登入按鈕
+    const loginbtnFB = wrapper.querySelector('#loginbtnFB');
+    const loginbtnGoogle = wrapper.querySelector('#loginbtnGoogle');
+
+    // Facebook login Link
+    const loginLinkFBgeneral = '/auth/facebook/grp_general';
+    const loginLinkFBmanager = '/auth/facebook/grp_tcmgr';
+
+    // Google Login link
+    const loginLinkGoogleGeneral = '/auth/google/grp_general';
+    const loginLinkGoogleManager = '/auth/google/grp_tcmgr';
+    /* ---------- */
 
     loginTypeBtns.forEach((btn) => {
 
@@ -81,12 +124,28 @@ export const loginModal = (container) => {
             let typeText = '';
 
             switch(type){
-                case 'normal':
+                case 'general':
                     typeText = '一般';
+
+                    // 登入按鈕連結
+                    loginbtnFB.href = loginLinkFBgeneral;
+                    loginbtnGoogle.href = loginLinkGoogleGeneral;
+                    
+                    // 政策與條款連結
+                    loginModalLinkTermsEl.href = linkGeneralTerms;
+                    loginModalLinkPrivacyEl.href = linkGeneralPrivacy;
                     break;
 
-                case 'teacher':
+                case 'manager':
                     typeText = '才藝班班主任';
+
+                    // 登入按鈕連結
+                    loginbtnFB.href = loginLinkFBmanager;
+                    loginbtnGoogle.href = loginLinkGoogleManager;
+
+                    // 政策與條款連結
+                    loginModalLinkTermsEl.href = linkManagerTerms;
+                    loginModalLinkPrivacyEl.href = linkManagerPrivacy;
                     break;
             }
            
