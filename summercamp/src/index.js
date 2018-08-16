@@ -20,6 +20,11 @@ import {
   reviewModal
 } from './dialog';
 
+// user
+import {
+  userControl
+} from './user';
+
 /* ---------- swiper image gallery ---------- */
 let gallery = new Swiper(".swiper-container", {
 
@@ -74,7 +79,12 @@ function hideDownloadMenu(){
 /* ---------- rating ---------- */
 {
   // basic info: rating
-  showRating(screviews,document.querySelector('.basic-info ul'),'li');
+  showRating(
+    screviews,
+    userinfo,
+    document.querySelector('.basic-info ul'),
+    'li'
+  );
 
   // rating and review section
   ratingSection(screviews,document.querySelector('.main--content .centerwpr'));
@@ -90,7 +100,8 @@ document.querySelector('.star-container').addEventListener('click',() => {
 
 /* ---------- login ---------- */
 loginModal(
-  document.querySelector('.outerWpr')
+  document.querySelector('.outerWpr'),
+  logingroup
 );
 
 /* ---------- user rating and review  ---------- */
@@ -102,10 +113,9 @@ reviewModal(
 );
 
 // 開啟
-/*
-document.querySelector('#ratingTrigger').addEventListener('click', () => {
+document.querySelector('#ratingTrigger').addEventListener('click', (event) => {
   
-  if(userLogin == false){
+  if(!userinfo){
     // 開啟 Login Modal
     openModal(document.getElementById('loginModal'));
   } else {
@@ -114,9 +124,23 @@ document.querySelector('#ratingTrigger').addEventListener('click', () => {
   }  
   
 });
-*/
+
+/* ---------- user ---------- */
+userControl(
+  document.querySelector('.download'),
+  userinfo,
+  logingroup
+);
+
+document.querySelector('#ucLoginbtn').addEventListener('click', () => {
+  // 開啟 Login Modal  
+  openModal(document.getElementById('loginModal'));
+  
+});
+
 
 // 測試用
+/*
 document.querySelector('#ratingTrigger1').addEventListener('click', () => {
   
   openModal(document.getElementById('loginModal'));
@@ -128,4 +152,4 @@ document.querySelector('#ratingTrigger2').addEventListener('click', () => {
   openModal(document.getElementById('reviewModal'));
   
 });
-
+*/

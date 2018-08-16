@@ -54,7 +54,7 @@ background-size:auto 28px; background-position:left 8px;
 }
 
 /* ---------- download btn ---------- */
-.download {float:right; height:100%;
+.download {height:100%; float:right;
 display:flex; justify-content:space-between; align-items:center;
 color:#fff;
 }
@@ -67,7 +67,7 @@ position:relative;
 }
 .download--btn:hover {background-color:#111939;}
 .download--btn+.download--btn {margin-left:8px;}
-.download .txt {margin-right:10px; font-size:15px;
+.download .txt {margin-right:10px; font-size:14px;
 position:relative;
 }
 
@@ -106,6 +106,39 @@ position:fixed; left:0; top:0; z-index:970;
 display:none;
 }
 #downloadOverlay.active {display:block;}
+
+/* ---------- User ---------- */
+#userControlwpr {height:32px; margin-left:8px;}
+
+#ucLoginbtn {cursor:pointer; height:100%; padding:0 15px;
+display:flex; align-items:center;    
+font-size:14px; line-height:1; border-radius:4px;
+}
+.login #ucLoginbtn {display:none;}
+
+#ucLoginbtn:hover {background-color:#12529f;}
+
+#ucLoginbtn i {margin-right:8px; color:#f3f8fd;
+position:relative; top:1px;
+}
+
+.uc-info {display:none; align-items:center; padding-left:10px; height:100%;}
+.login .uc-info {display:flex;}
+
+.uc-info--avatar {width:30px; height:30px; margin-right:10px;
+border-radius:50%; overflow:hidden;
+flex-shrink:0;
+}
+.uc-info--avatar img {width:100%;}
+.uc-info--name {font-size:13px; line-height:1; flex-shrink:0;}
+
+#ucLogoutbtn {height:90%; padding:0 10px; margin-left:12px;
+display:flex; align-items:center;    
+font-size:14px; line-height:1; color:#fff;
+border-radius:4px;   
+background-color:#12529f;
+}
+#ucLogoutbtn:hover {background-color:#124588;}
 
 /* ---------- footer ---------- */
 .footer {position:relative; flex-shrink:0;    
@@ -159,7 +192,6 @@ ul+p, ol+p {margin-top:20px;}
 .main--content ul li:before {
 content:""; display:inline-block; margin-right:10px;
 width:6px; height:6px; vertical-align:middle;
-/* position:relative; top:-1px; */
 border:2px solid #029ce5; border-radius:50%;
 }
 
@@ -267,6 +299,7 @@ opacity:0.8;
 display:flex; align-items:center;
 }
 .basic-info .star-container {margin-right:10px; flex-shrink:0; cursor:pointer;}
+/* li.rating br {display:none;} */
 
 .star-wpr {position:relative; width:18px; height:20px;
 background-image:url("../images/rating-star.png"); background-repeat:no-repeat;
@@ -304,8 +337,7 @@ background-color:#dedfe0;
 }
 .rates--bar {height:100%;
 background-color:#0492e0;
-} 
-.rates--percent {}
+}
 
 .rates--star {display:flex; align-items:center; margin:0 10px;}
 .rates--star .star {display:block; width:18px; height:20px;
@@ -314,6 +346,8 @@ background-size:18px auto; background-position:0 2px;
 image-rendering: -moz-crisp-edges;
 }
 .rates--star .star.checked {background-position:0 bottom;}
+
+.rates--star__text {display:none; margin-right:15px;}
 
 /* review section */
 .reviewContainer {padding-top:25px;}
@@ -375,12 +409,10 @@ line-height:1.5;
 }
 
 .modal--header {
-/* text-align:center;     */
 background-color:#fff; border-radius:6px 6px 0 0;
 border-bottom:1px solid #dedfe0;
 }
 .modal h1 {font-size:21px; color:#111939; line-height:1.4;}
-/* .modal h3 {font-size:17px; color:#111939; line-height:1.4;} */
 
 /* ---------- Modal: Login ---------- */
 #loginModal .modal--container {max-width:320px;}
@@ -399,7 +431,6 @@ border-radius:6px;
 font-size:18px;
 display:flex; justify-content:center; align-items:center;
 }
-
 
 #loginModal .userType {padding:10px 0; margin-bottom:15px;
 text-align:center;
@@ -465,10 +496,6 @@ border-bottom:1px dotted #333;
 }
 #loginModal .modal--footer .item a:hover {background-color:#555; color:#fff;}
 
-/* 測試 */
-/* #loginModal {display:flex;} */
-/* 測試 */
-
 /* ---------- Modal: Rating and Review ---------- */
 #reviewModal .modal--header h2 {font-size:16px; margin-top:6px;}
 
@@ -482,7 +509,7 @@ border-radius:0; box-shadow:none; border:none;
 background-color:transparent;
 cursor:pointer;
 }
-/* #reviewModal .modal--footer button+button {margin-left:5px;} */
+
 #reviewModal .modal--footer .submit {
 height:32px; padding:0 25px; margin-left:25px;   
 border-radius:6px; border:1px solid #02a9d4;
@@ -534,12 +561,16 @@ border-top:1px dashed #c6dff7;
 .hint--qualified {display:none; margin-left:4px;}
 .hint--qualified.show {display:inline;}
 
-/* 測試用 */
-/* #reviewModal {display:flex;} */
-
 /* ---------- Modal: trigger ---------- */
-#ratingTrigger {cursor:pointer;}
-
+#ratingTrigger {cursor:pointer;
+padding:4px 10px;
+font-size:15px; color:#666;
+background-color:#fff;
+border-bottom:none; border-radius:4px;
+}
+#ratingTrigger:hover {color:#fff;
+background-color:#0f67bf;
+}
 
 /* ---------- response ---------- */
 @media screen and (max-width: 600px) {
@@ -548,7 +579,7 @@ border-top:1px dashed #c6dff7;
     .main {padding-top:0;}
     .main--head h1 {font-size:22px;}
     #hamburger {display:block;}
-    .download {flex-direction:column; z-index:990;
+    .download {flex-direction:column; z-index:990; max-width:140px;
         justify-content:center; align-items:stretch;
         height:auto; float:none; padding:8px 14px 16px 14px;
         position:absolute; right:10px; top:38px;
@@ -585,7 +616,58 @@ border-top:1px dashed #c6dff7;
     .store--intro p.mobile {display:block;}
     .btn-container {display:flex;}
 
+    /* User Control: 尚未登入 */
+    #userControlwpr {order:-1; height:auto;
+        margin-left:0;
+        padding-bottom:10px; padding-top:2px; margin-bottom:10px;
+        border-bottom:2px solid #0e3b58;
+    }
+    
+    #ucLoginbtn {padding:8px 5px; justify-content:center;
+        height:auto;
+    }
 
+    /* User Control: 登入後 */
+    #userControlwpr.login {padding:6px 0 0 0; margin-bottom:0;
+        border-bottom:none;
+    }
+
+    .login .uc-info {display:block; height:auto; 
+        padding-bottom:15px; padding-left:0; margin-bottom:10px;
+        text-align:center;
+        border-bottom:2px solid #0e3b58;
+    }
+
+    .uc-info--avatar {width:36px; height:36px; margin:0 auto 6px auto;}
+    .uc-info--name {margin-bottom:10px;}
+
+    #ucLogoutbtn {height:auto; margin-left:0; padding:5px;
+        display:block;
+    }
+
+    /* basic info, contact info list */
+    .basic-info li, .contact-info li {
+        display:block;
+    }
+    .main--content ul li:before {position:relative; top:-1px;}
+
+    /* rating */
+    li.rating .star-container {display:inline-flex; top:3px; margin-bottom:10px;}
+    #ratingSum {display:inline-block;}
+    #ratingTrigger {display:inline-block;}
+
+    .rates--slot {max-width:200px; margin-right:15px;}
+    .rates--star {display:none;}
+    .rates--star__text {display:block;}
+
+}
+
+@media screen and (max-width: 480px) {
+
+    .ratingSummary {flex-direction:column;}
+    .ratingSummary--avg {margin-right:0; margin-bottom:15px;}
+    .ratingSummary--rates {width:100%;}
+    .rates--slot {max-width:none;}
 
 }
 

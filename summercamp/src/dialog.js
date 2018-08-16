@@ -15,7 +15,7 @@ export const closeModal = (modal) => {
 } // closeModal
 
 /* ---------- login ---------- */
-export const loginModal = (container) => {
+export const loginModal = (container,loginUrl) => {
 
     const wrapper = document.createElement('div');
     wrapper.id = 'loginModal';
@@ -97,12 +97,12 @@ export const loginModal = (container) => {
     const loginbtnGoogle = wrapper.querySelector('#loginbtnGoogle');
 
     // Facebook login Link
-    const loginLinkFBgeneral = '/auth/facebook/grp_general';
-    const loginLinkFBmanager = '/auth/facebook/grp_tcmgr';
+    const loginLinkFBgeneral = loginUrl['0'][0];
+    const loginLinkFBmanager = loginUrl['1'][0];
 
     // Google Login link
-    const loginLinkGoogleGeneral = '/auth/google/grp_general';
-    const loginLinkGoogleManager = '/auth/google/grp_tcmgr';
+    const loginLinkGoogleGeneral = loginUrl['0'][1];
+    const loginLinkGoogleManager = loginUrl['1'][1];
     /* ---------- */
 
     loginTypeBtns.forEach((btn) => {
@@ -165,7 +165,7 @@ export const loginModal = (container) => {
     wrapper.querySelectorAll('.loginbtn').forEach((btn) => {
 
         btn.addEventListener('click',(event) => {
-            if(userSelectType == null){
+            if(!userSelectType){
                 // 還沒選擇的話顯示提示
                 event.preventDefault();
                 // console.log('還沒選擇身分');

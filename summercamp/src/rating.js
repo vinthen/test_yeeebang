@@ -55,7 +55,7 @@ export const ratingStarChart = (average,max) => {
 
 
 /* ---------- basic info rating star ---------- */
-export const showRating = (data,wrapper,element) => {
+export const showRating = (data,userinfo,wrapper,element) => {
 
     let average = data.average;
     let max = data.stars.length;
@@ -65,12 +65,19 @@ export const showRating = (data,wrapper,element) => {
     }
     
     const el = document.createElement(element);
+    el.classList.add('rating');
+
+    let triggerText = '';
+    if(!userinfo){
+        triggerText = '登入後即可評分';
+    } else {
+        triggerText = '新增評分';
+    }
     
     el.innerHTML = 
     `<strong>評分：</strong>
     <p id="ratingSum">${average} / ${max}<span class="sum">（${data.counts} 個評分）</span></p>
-    <a id="ratingTrigger1">評分測試 (未登入)</a>
-    <a id="ratingTrigger2" style="margin-left:10px;">評分測試 (已登入)</a>
+    <a id="ratingTrigger">${triggerText}</a>
     `;
     
     wrapper.appendChild(el);
@@ -147,10 +154,11 @@ export const ratingSection = (data,wrapper) => {
         const percent = (starAmount[i] / ratingAmount) * 100;
 
         el.innerHTML = 
-        `<div class="rates--slot">
+        `<div class="rates--star__text">${max - i}星</div>
+        <div class="rates--slot">
             <div class="rates--bar" style="width:${percent.toFixed(1)}%;"></div>
         </div>
-        <div class="rates--star"></div>
+        <div class="rates--star"></div>        
         <div class="rates--percent">${percent.toFixed(0)}%</div>
         `;
 
