@@ -192,7 +192,7 @@ export const loginModal = (container,loginUrl) => {
 
 
 /* ---------- user rating and review ---------- */
-export const reviewModal = (container,campName,autosize,StarRating) => {
+export const reviewModal = (container,campName,superagent,autosize,StarRating,token,myreview) => {
 
     const wrapper = document.createElement('div');
     wrapper.id = 'reviewModal';
@@ -285,14 +285,14 @@ export const reviewModal = (container,campName,autosize,StarRating) => {
 
     reviewModalInput.addEventListener('input', (event) => {
 
-        characterCountCheck(event);      
+        characterCountCheck(event.target);      
 
     });
 
-    const characterCountCheck = (event) => {
+    const characterCountCheck = (target) => {
 
         // 去掉空白
-        let originValue = event.target.value;
+        let originValue = target.value;
         let trimValue = originValue.replace(/\s+|　+/g,''); 
 
         // 計算字數
@@ -305,6 +305,34 @@ export const reviewModal = (container,campName,autosize,StarRating) => {
         } else {
             hintQualified.classList.remove('show');
         }
+    }
+
+    // 已經存在 myrevuew，帶入資料
+    if(myreview){
+
+        wrapper.querySelector('.modal--header h1').textContent = '編輯評分與評論';
+
+        loadMyreviewContent(myreview,autosize);
+        
+    }
+
+    // 帶入 myreview 內容
+    function loadMyreviewContent(data) {
+
+        // 帶入星星數
+        const scores = data.scores;
+        const options = starRatingEl.querySelectorAll('option');
+        const index = options.length - scores;
+
+        options[index].selected = true;
+        const triggerEvent = new Event('change');
+        starRatingEl.dispatchEvent(triggerEvent);
+        starRatingControls.rebuild();
+
+        // 帶入評論內容
+        reviewModalInput.value = data.review;
+        characterCountCheck(reviewModalInput); 
+
     }
 
 
@@ -324,20 +352,71 @@ export const reviewModal = (container,campName,autosize,StarRating) => {
         
         // 清除 textarea
         reviewModalInput.value = '';
-        autosize.update(reviewModalInput);
+        // autosize.update(reviewModalInput);
+
+        // reset, 帶入 myreview 內容
+        if(myreview){
+            loadMyreviewContent(myreview);
+        }
 
         closeModal(wrapper);
     });
 
     /* ----- 送出，關閉並送出已輸入的內容 ----- */
-    wrapper.querySelector('.submit').addEventListener('click',(event) => {        
+    wrapper.querySelector('.submit').addEventListener('click',(event) => {
         
         if(userSelectRatingScore >= 1 && reviewModalInput.value.length > 1){
 
-            console.log('評分數：' + userSelectRatingScore);
-            console.log('評論內容：' + reviewModalInput.value);
+            // console.log('評分數：' + userSelectRatingScore);
+            // console.log('評論內容：' + reviewModalInput.value);
 
-            autosize.update(reviewModalInput);
+            let sendContent = {
+                sc_id: screviews['sc_id'],
+                crud: '',
+                scores: userSelectRatingScore,
+                review: reviewModalInput.value
+            };
+
+            // console.log(myreview);
+
+            if(myreview){
+                // update
+                // sendContent = {
+                //     sc_id: screviews['sc_id'],
+                //     crud: 'u',
+                //     scores: userSelectRatingScore,
+                //     review: reviewModalInput.value,
+                //     screview_id: screviews['myreview']['id']
+                // }
+                sendContent.crud = 'u';
+                sendContent.screview_id = screviews['myreview']['id'];
+
+            } else {
+                // create
+                // sendContent = {
+                //     sc_id: screviews['sc_id'],
+                //     crud: 'c',
+                //     scores: userSelectRatingScore,
+                //     review: reviewModalInput.value
+                // }
+                sendContent.crud = 'c';
+            }
+
+            superagent
+                .post('/summercamp/screview')                
+                .set('X-CSRF-TOKEN', token)
+                .send(sendContent)
+                .then(res => {
+                    console.log(JSON.parse(res.text));
+                    
+                    // 測試用，force reload
+                    window.location.reload(true);
+                })
+                .catch(err => {
+                    console.log(err);                    
+                });
+
+            // autosize.update(reviewModalInput);
             closeModal(wrapper);     
 
         } else {

@@ -1,15 +1,16 @@
 // plugins
 import Swiper from 'swiper';
-// import superagent from 'superagent';
+import superagent from 'superagent';
 import autosize from 'autosize';
-// import * as StarRating from 'star-rating.js';
+
 const StarRating = require('star-rating.js');
 
 // rating
 import {
   ratingStarChart,
   showRating,  
-  ratingSection
+  ratingSection,
+  deleteReview
 } from './rating';
 
 // dialog
@@ -24,6 +25,13 @@ import {
 import {
   userControl
 } from './user';
+
+// helper
+// import {getParents} from './helper';
+
+
+// Token
+const csrfToken = document.head.querySelector("[name=csrf-token]").content;
 
 /* ---------- swiper image gallery ---------- */
 let gallery = new Swiper(".swiper-container", {
@@ -108,8 +116,11 @@ loginModal(
 reviewModal(
   document.querySelector('.outerWpr'),
   campName,
+  superagent,
   autosize,
-  StarRating
+  StarRating,
+  csrfToken,
+  screviews.myreview
 );
 
 // 開啟
@@ -121,6 +132,8 @@ document.querySelector('#ratingTrigger').addEventListener('click', (event) => {
   } else {
     // 開啟 Rating and review Modal
     openModal(document.getElementById('reviewModal'));
+    // update textarea autosize
+    autosize.update(document.getElementById('reviewModalInput'));
   }  
   
 });
@@ -138,18 +151,37 @@ document.querySelector('#ucLoginbtn').addEventListener('click', () => {
   
 });
 
-
-// 測試用
-/*
-document.querySelector('#ratingTrigger1').addEventListener('click', () => {
-  
-  openModal(document.getElementById('loginModal'));
-  
+// 刪除評分與評論
+document.querySelector('.reviewEntry--delete').addEventListener('click',(event) => {
+  deleteReview(
+    event,
+    csrfToken,
+    superagent
+  );
 });
 
-document.querySelector('#ratingTrigger2').addEventListener('click', () => {
-  
+// 編輯評論
+document.querySelector('.reviewEntry--edit').addEventListener('click',(event) => {
   openModal(document.getElementById('reviewModal'));
-  
+  autosize.update(document.getElementById('reviewModalInput'));
 });
-*/
+
+
+
+// 刪除評論
+/*
+superagent
+  .post('/summercamp/screview')                
+  .set('X-CSRF-TOKEN', csrfToken)
+  .send({
+      sc_id: screviews['sc_id'],
+      crud: 'd',
+      screview_id: '14',
+  })
+  .then(res => {
+      console.log(JSON.parse(res.text));
+  })
+  .catch(err => {
+      console.log(err);                    
+  });
+  */
