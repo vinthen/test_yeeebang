@@ -2,6 +2,8 @@ import {ratingStarChart} from './rating'; // 畫 star rating 星星
 import {formateDate} from './helper'; // 轉換日期格式
 import {openModal} from './dialog'; // 開啟 modal
 
+import {updateContent} from './update'; // 更新內容
+
 import superagent from 'superagent';
 import autosize from 'autosize';
 
@@ -159,10 +161,13 @@ export const deleteReview = (event,csrfToken) => {
             screview_id: entryID,
         })
         .then(res => {
-            console.log(JSON.parse(res.text));
 
+            const resData = JSON.parse(res.text).data;
+            screviews = resData;      
+            updateContent(resData,csrfToken);
+          
             // 測試用，force reload
-            window.location.reload(true);
+            // window.location.reload(true);
         })
         .catch(err => {
             console.log(err);                    

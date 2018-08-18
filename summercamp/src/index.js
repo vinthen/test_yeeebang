@@ -1,6 +1,5 @@
 // plugins
 import Swiper from 'swiper';
-import autosize from 'autosize';
 
 // rating
 import {
@@ -15,7 +14,7 @@ import {
 
 // dialog
 import {
-  openModal,
+  ratingTriggerControl,
   loginModal,
   reviewModal
 } from './dialog';
@@ -132,20 +131,11 @@ if(userinfo != null && userinfo.screviews_counts > 0){
   document.querySelector('.revieiw--coupon').classList.add('hide');
 }
 
-// open login / review modal
-document.querySelector('#ratingTrigger').addEventListener('click', (event) => {
-  
-  if(!userinfo){
-    // 開啟 Login Modal
-    openModal(document.getElementById('loginModal'));
-  } else {
-    // 開啟 Rating and review Modal
-    openModal(document.getElementById('reviewModal'));
-    // update textarea autosize
-    autosize.update(document.getElementById('reviewModalInput'));
-  }  
-  
-});
+// open login / review modal (trigger click event)
+ratingTriggerControl(
+  document.querySelector('#ratingTrigger'),
+  userinfo
+);
 
 /* ---------- user login / logout ---------- */
 userControl(

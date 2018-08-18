@@ -2,6 +2,8 @@ import StarRating from 'star-rating.js';
 import autosize from 'autosize';
 import superagent from 'superagent';
 
+import {updateContent} from './update'; // 更新內容
+
 import {characterCountCheck} from './helper'; // 計算去掉空白後的字數
 
 /* ---------- Open Modal ---------- */
@@ -19,6 +21,25 @@ export const closeModal = (modal) => {
     }   
 
 } // closeModal
+
+/* ---------- Rating Trigger Eventlistener ---------- */
+export const ratingTriggerControl = (trigger,userinfo) => {
+
+    trigger.addEventListener('click', () => {
+  
+        if(!userinfo){
+          // 開啟 Login Modal
+          openModal(document.getElementById('loginModal'));
+        } else {
+          // 開啟 Rating and review Modal
+          openModal(document.getElementById('reviewModal'));
+          // update textarea autosize
+          autosize.update(document.getElementById('reviewModalInput'));
+        }  
+        
+      });
+
+} // ratingTriggerControl
 
 /* ---------- login Modal ---------- */
 export const loginModal = (container,loginUrl) => {
@@ -390,21 +411,9 @@ export const reviewModal = (
                 .send(sendContent)
                 .then(res => {          
 
-                    // 返回的資料
-                    // const resData = JSON.parse(res.text).data;                    
-                    // console.log(resData);
-
-                    // const sectionwpr = document.getElementById('reviewSection');
-                    // const reviewContainer = sectionwpr.querySelector('.reviewContainer');
-
-                    // // 移除所有評論內容
-                    // sectionwpr.removeChild(reviewContainer);            
-
-                    // 根據返回的資料，重新產生所有評論                    
-                    // ratingSum(參數);
-                    // ratingDetail(參數);
-                    // showReview(參數);
-
+                    // const resData = JSON.parse(res.text).data;
+                    // screviews = resData;      
+                    // updateContent(resData,csrfToken);
                     
                     // 測試用，force reload
                     window.location.reload(true);
