@@ -8,10 +8,16 @@ const StarRating = require('star-rating.js');
 // rating
 import {
   ratingStarChart,
-  showRating,  
-  ratingSection,
-  deleteReview
+  ratingSum,  
+  ratingDetail
 } from './rating';
+
+// review
+import {
+  showReview,
+  createReviewEntry,
+  deleteReview
+} from './review';
 
 // dialog
 import {
@@ -21,13 +27,15 @@ import {
   reviewModal
 } from './dialog';
 
-// user
+// user login, logout
 import {
   userControl
 } from './user';
 
-// helper
-// import {getParents} from './helper';
+// helpers
+import {
+  formateDate
+} from './helper';
 
 
 // Token
@@ -84,10 +92,20 @@ function hideDownloadMenu(){
   overlay.classList.remove("active");
 }
 
+/* ---------- create rating and review section ---------- */
+const rSectionwpr = document.createElement('section');
+rSectionwpr.classList.add('review');
+rSectionwpr.id = 'reviewSection';
+
+rSectionwpr.innerHTML = '<h2>家長評分與評論</h2>';
+
+document.querySelector('.main--content .centerwpr').appendChild(rSectionwpr);
+
+
 /* ---------- rating ---------- */
 {
-  // basic info: rating
-  showRating(
+  // basic info: rating sum
+  ratingSum(
     screviews,
     userinfo,
     document.querySelector('.basic-info ul'),
@@ -95,7 +113,11 @@ function hideDownloadMenu(){
   );
 
   // rating and review section
-  ratingSection(screviews,document.querySelector('.main--content .centerwpr'));
+  ratingDetail(
+    screviews,
+    rSectionwpr
+  )
+  // ratingSection(screviews,document.querySelector('.main--content .centerwpr'));
 }
 
 document.querySelector('.star-container').addEventListener('click',() => {
@@ -106,13 +128,23 @@ document.querySelector('.star-container').addEventListener('click',() => {
 
 });
 
-/* ---------- login ---------- */
+/* ---------- review section ---------- */
+showReview(
+  rSectionwpr,
+  screviews,
+  createReviewEntry,
+  ratingStarChart,
+  formateDate
+)
+
+
+/* ---------- login modal ---------- */
 loginModal(
   document.querySelector('.outerWpr'),
   logingroup
 );
 
-/* ---------- user rating and review  ---------- */
+/* ---------- user rating and review modal ---------- */
 reviewModal(
   document.querySelector('.outerWpr'),
   campName,
@@ -123,7 +155,7 @@ reviewModal(
   screviews.myreview
 );
 
-// 開啟
+// open login / review modal
 document.querySelector('#ratingTrigger').addEventListener('click', (event) => {
   
   if(!userinfo){
@@ -138,7 +170,7 @@ document.querySelector('#ratingTrigger').addEventListener('click', (event) => {
   
 });
 
-/* ---------- user ---------- */
+/* ---------- user login / logout ---------- */
 userControl(
   document.querySelector('.download'),
   userinfo,
@@ -151,37 +183,23 @@ document.querySelector('#ucLoginbtn').addEventListener('click', () => {
   
 });
 
-// 刪除評分與評論
-document.querySelector('.reviewEntry--delete').addEventListener('click',(event) => {
-  deleteReview(
-    event,
-    csrfToken,
-    superagent
-  );
-});
+/* ---------- 刪除與編輯評論 ---------- */
+if(screviews.myreview) {
 
-// 編輯評論
-document.querySelector('.reviewEntry--edit').addEventListener('click',(event) => {
-  openModal(document.getElementById('reviewModal'));
-  autosize.update(document.getElementById('reviewModalInput'));
-});
-
-
-
-// 刪除評論
-/*
-superagent
-  .post('/summercamp/screview')                
-  .set('X-CSRF-TOKEN', csrfToken)
-  .send({
-      sc_id: screviews['sc_id'],
-      crud: 'd',
-      screview_id: '14',
-  })
-  .then(res => {
-      console.log(JSON.parse(res.text));
-  })
-  .catch(err => {
-      console.log(err);                    
+  // 刪除評分與評論
+  document.querySelector('.reviewEntry--delete').addEventListener('click',(event) => {
+    deleteReview(
+      event,
+      csrfToken,
+      superagent
+    );
   });
-  */
+
+  // 編輯評論
+  document.querySelector('.reviewEntry--edit').addEventListener('click',(event) => {
+    openModal(document.getElementById('reviewModal'));
+    autosize.update(document.getElementById('reviewModalInput'));
+  });
+
+}
+

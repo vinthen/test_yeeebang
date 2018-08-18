@@ -1,8 +1,10 @@
-/* ---------- show rating star chart ---------- */
+/* ---------- 產生 rating star chart ---------- */
 export const ratingStarChart = (average,max) => {
         
     if(average > max){
         average = max;
+    } else if(average < 0){
+        average = 0;
     }
     
     // 將星星數轉為字串
@@ -54,19 +56,29 @@ export const ratingStarChart = (average,max) => {
 } // ratingStarChart
 
 
-/* ---------- basic info rating star ---------- */
-export const showRating = (data,userinfo,wrapper,element) => {
+/* ---------- basic info rating sum ---------- */
+export const ratingSum = (data,userinfo,wrapper,element) => {
 
+    // 分數
     let average = data.average;
     let max = data.stars.length;
     
     if(average > max){
         average = max;
+    } else if(average < 0){
+        average = 0;
+    }
+
+    // 評分數    
+    let counts = data.counts;
+    let countsText = null;
+    if(counts > 0){
+        countsText = `${counts} 個評分`;
+    } else if (counts == 0){
+        countsText = '尚未有人評分'
     }
     
-    const el = document.createElement(element);
-    el.classList.add('rating');
-
+    // 評分按鈕文字
     let triggerText = '';
     if(!userinfo){
         triggerText = '登入後即可評分';
@@ -77,12 +89,14 @@ export const showRating = (data,userinfo,wrapper,element) => {
         } else {
             triggerText = '新增評分';
         }
-
     }
+
+    const el = document.createElement(element);
+    el.classList.add('rating');
     
     el.innerHTML = 
     `<strong>評分：</strong>
-    <p id="ratingSum">${average} / ${max}<span class="sum">（${data.counts} 個評分）</span></p>
+    <p id="ratingSum">${average} / ${max}<span class="sum">（${countsText}）</span></p>
     <a id="ratingTrigger">${triggerText}</a>
     `;
     
@@ -96,34 +110,11 @@ export const showRating = (data,userinfo,wrapper,element) => {
         ratingSum
     );
     
-} //showRating
+} // ratingSum
 
 
-/* ---------- create rating and review section ---------- */
-export const ratingSection = (data,wrapper) => {
-
-    // rating data
-    // const ratingData = data[0];
-
-    // 最大星星數
-    const maxStar = data.stars.length;
-    
-    // review data
-    const reviewAmount = data.list.length;
-    let reviewData = 0;
-    
-    if(reviewAmount > 0) {
-        reviewData = data.list;
-    }
-    
-
-    const sectionwpr = document.createElement('section');
-    sectionwpr.classList.add('review');
-    sectionwpr.id = 'reviewSection';
-
-    sectionwpr.innerHTML = '<h2>家長評分與評論</h2>';
-
-    wrapper.appendChild(sectionwpr);
+/* ---------- ratingDetail ---------- */
+export const ratingDetail = (data,sectionwpr) => {
 
     // rating
     const ratingwpr = document.createElement('div');
@@ -134,6 +125,8 @@ export const ratingSection = (data,wrapper) => {
     
     if(average > max){
         average = max;
+    } else if(average < 0){
+        average = 0;
     }
 
     const ratingAmount = data.counts;
@@ -153,6 +146,7 @@ export const ratingSection = (data,wrapper) => {
 
     const ratesWpr = ratingwpr.querySelector('.ratingSummary--rates');
 
+    // bar chart and percent
     for(let i = 0; i < max; i++){
         const el = document.createElement('div');
         el.classList.add('rates-entry');
@@ -191,142 +185,8 @@ export const ratingSection = (data,wrapper) => {
         }
     })
 
-
-    // review
-    const reviewContainer = document.createElement('div');
-    reviewContainer.classList.add('reviewContainer');
-
-    reviewContainer.innerHTML = '<h3>評論</h3>';
-
-    sectionwpr.appendChild(reviewContainer);
-
-    const reviewEntrywpr = document.createElement('div');
-    reviewEntrywpr.classList.add('reviewEntrywpr');
-
-    reviewContainer.appendChild(reviewEntrywpr);
-
-    if(reviewAmount == 0){
-        // 目前尚無評論  
-        const hint = document.createElement('div');
-        hint.classList.add('reviewEntry');
-        hint.innerHTML = 
-        `<p>目前尚無評論</p>`;
-
-        reviewContainer.appendChild(hint);
-
-    } else {
-        // 顯示評論條目
-        reviewData.forEach((listItem) => {
-
-            createReviewEntry(listItem,reviewEntrywpr,false);
-
-        });
-    }
-
-    // 目前登入使用者的評論
-    if(data.myreview){
-        // console.log('目前登入使用者有評論');
-        const myreviewEntry = document.createElement('div');
-        myreviewEntry.classList.add('myreviewEntry');
-
-        createReviewEntry(data.myreview,myreviewEntry,true);
-
-        reviewContainer.insertBefore(myreviewEntry, reviewEntrywpr);
-
-    }
+} // ratingDetail
 
 
-    /* ----- 產生評論條目內容 ----- */
-    function createReviewEntry(data,container,myReview){
-
-        /* -- myReview: true / false -- */
-
-        const reviewEntry = document.createElement('div');
-        reviewEntry.classList.add('reviewEntry');
-
-        reviewEntry.setAttribute('data-id', data.id);
-    
-        const date = formateDate(data.updated_at);
-
-        reviewEntry.innerHTML = 
-        `<div class="reviewEntry--avatar">
-            <div class="imgwpr">
-                <img src="${data.avatar}" />              
-            </div>
-        </div>
-        <div class="reviewEntry--content">
-            <div class="user">
-                <div class="name">${data.name}</div>
-                <div class="user--group">
-                    <div class="rating"></div>                    
-                    <div class="date">${date}</div>
-                </div>
-            </div>
-            <div class="text">${data.review}</div>            
-        </div>`;
-
-        // add rating star
-        const rating = ratingStarChart(data.scores,maxStar);          
-        const ratingwpr = reviewEntry.querySelector('.rating');
-        ratingwpr.appendChild(rating);    
-
-        // add delete button
-        if(myReview){
-            const userBtnwpr = document.createElement('div');
-            userBtnwpr.classList.add('reviewEntry--userBtnwpr');
-            userBtnwpr.innerHTML = 
-            `<div class="reviewEntry--delete">刪除</div>
-            <div class="reviewEntry--edit">編輯</div>`;            
-
-            const entryContent = reviewEntry.querySelector('.reviewEntry--content');
-            entryContent.appendChild(userBtnwpr);
-        }    
-
-        container.appendChild(reviewEntry);
-
-    } // createReviewEntry
-
-    /* ----- 日期格式改為 2018/8/10 ----- */
-    function formateDate(source){
-
-        const dataArray = source.split(' ');
-        const date = dataArray[0];
-        const dateArray = date.split('-');
-
-        return `${dateArray[0]}年${dateArray[1].replace(/^0+/, '')}月${dateArray[2].replace(/^0+/, '')}日`;
-
-    } // formateDate
-
-} // ratingSection
-
-/* ---------- 刪除評論 ---------- */
-export const deleteReview = (event,csrfToken,superagent) => {
-
-    const btn = event.target;
-
-    const reviewEntry = btn.parentNode.parentNode.parentNode;
-
-    const entryID = reviewEntry.dataset.id;
-    // console.log(entryID);
-    
-    superagent
-        .post('/summercamp/screview')                
-        .set('X-CSRF-TOKEN', csrfToken)
-        .send({
-            sc_id: screviews['sc_id'],
-            crud: 'd',
-            screview_id: entryID,
-        })
-        .then(res => {
-            console.log(JSON.parse(res.text));
-
-            // 測試用，force reload
-            window.location.reload(true);
-        })
-        .catch(err => {
-            console.log(err);                    
-        });
-    
-}
 
 
