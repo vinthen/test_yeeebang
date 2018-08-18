@@ -1,3 +1,5 @@
+import {openModal} from './dialog'; // 開啟 modal
+
 export const userControl = (container,userinfo,logingroup) => {
 
     const wrapper = document.createElement('div');
@@ -33,7 +35,11 @@ export const userControl = (container,userinfo,logingroup) => {
 
     }
 
-
-
+    // 登入按鈕
+    ucLoginbtn.addEventListener('click', () => {
+        // 開啟 Login Modal  
+        openModal(document.getElementById('loginModal'));
+    
+    });
 
 }

@@ -1,13 +1,19 @@
-/* ---------- 顯示所有評論 ---------- */
-export const showReview = (sectionwpr,screviews,createReviewEntry,ratingStarChart,formateDate) => {
+import {ratingStarChart} from './rating'; // 畫 star rating 星星
+import {formateDate} from './helper'; // 轉換日期格式
+import {openModal} from './dialog'; // 開啟 modal
 
-    // sectionwpr: 包含星星數統計與所有評論的 section    
-    // screviews: 資料
+import superagent from 'superagent';
+import autosize from 'autosize';
+
+/* ---------- 顯示所有評論 ---------- */
+export const showReview = (
+    sectionwpr, // sectionwpr: 包含星星數統計與所有評論的 section
+    screviews, // screviews: 資料
+    csrfToken // token
+) => {
 
     const reviewContainer = document.createElement('div');
-    reviewContainer.classList.add('reviewContainer');
-
-    // reviewContainer.innerHTML = '<h3>評論</h3>';
+    reviewContainer.classList.add('reviewContainer'); 
 
     sectionwpr.appendChild(reviewContainer);
 
@@ -18,13 +24,11 @@ export const showReview = (sectionwpr,screviews,createReviewEntry,ratingStarChar
 
     reviewContainer.appendChild(reviewEntrywpr);
 
+    // 最大星星數
     let maxStar = 5;
     if(screviews.stars){
         maxStar = screviews.stars.length;
     }
-
-    // const maxStar = screviews.stars.length;
-    // console.log('maxStar: ' + maxStar);
 
     if(screviews.list.length > 0){
         // 顯示評論條目
@@ -33,9 +37,7 @@ export const showReview = (sectionwpr,screviews,createReviewEntry,ratingStarChar
                 listItem,
                 maxStar,
                 reviewEntrywpr,
-                false,
-                ratingStarChart,
-                formateDate
+                false
             );
         });
 
@@ -43,30 +45,45 @@ export const showReview = (sectionwpr,screviews,createReviewEntry,ratingStarChar
         // 目前尚無評論  
         const hint = document.createElement('div');
         hint.classList.add('reviewEntry');
-        hint.innerHTML = 
-        `<p>目前尚無評論</p>`;
+        hint.innerHTML = '<p>目前尚無評論</p>';
 
         reviewContainer.appendChild(hint);
     }
 
     // 目前登入使用者的評論
     if(screviews.myreview){
-        // console.log('目前登入使用者有評論');
+        // 目前登入使用者有評論
         const myreviewEntry = document.createElement('div');
         myreviewEntry.classList.add('myreviewEntry');
 
-        myreviewEntry.innerHTML = `<h4>我的評論</h4>`;
+        myreviewEntry.innerHTML = '<h4>我的評論</h4>';
 
         createReviewEntry(
             screviews.myreview,
             maxStar,
             myreviewEntry,
-            true,
-            ratingStarChart,
-            formateDate
+            true
         );
 
         reviewContainer.insertBefore(myreviewEntry, reviewEntrywpr);
+        
+        // add event listener for button        
+        // 刪除評分與評論
+        myreviewEntry.querySelector('.reviewEntry--delete')
+        .addEventListener('click',(event) => {
+
+            deleteReview(event,csrfToken);
+
+        });
+
+        // 編輯評論
+        myreviewEntry.querySelector('.reviewEntry--edit').addEventListener('click',(event) => {
+            openModal(document.getElementById('reviewModal'));
+            autosize.update(document.getElementById('reviewModalInput'));
+
+            // console.log('edit btn');
+        });
+        
 
     }
 
@@ -74,22 +91,19 @@ export const showReview = (sectionwpr,screviews,createReviewEntry,ratingStarChar
 
 
 /* ----- 產生單筆評論條目 ----- */
-export const createReviewEntry = (data,maxStar,container,myReview,ratingStarChart,formateDate) => {
-
-    // data: "單筆"評論的資料
-
-    // container: reviewEntrywpr，所有條目的 container
-
-    // myReview: true / false
-    // 設定要產生的是否為 myreview
-
-    // formateDate: 轉換日期格式 helper
+export const createReviewEntry = (
+    data, // "單筆"評論的資料
+    maxStar, // 最大星星數
+    container, // reviewEntrywpr，所有條目的 container
+    myReview // true | false 設定要產生的是否為 myreview
+) => {
 
     const reviewEntry = document.createElement('div');
     reviewEntry.classList.add('reviewEntry');
 
     reviewEntry.setAttribute('data-id', data.id);
 
+    // 轉換後的日期格式
     const outputDate = formateDate(data.updated_at);
 
     reviewEntry.innerHTML = 
@@ -112,9 +126,9 @@ export const createReviewEntry = (data,maxStar,container,myReview,ratingStarChar
     // add rating star
     const rating = ratingStarChart(data.scores,maxStar);          
     const ratingwpr = reviewEntry.querySelector('.rating');
-    ratingwpr.appendChild(rating);    
+    ratingwpr.appendChild(rating);
 
-    // add delete and edit button
+    // 如果是 myreview，則需要加上刪除與編輯按鈕    
     if(myReview){
         const userBtnwpr = document.createElement('div');
         userBtnwpr.classList.add('reviewEntry--userBtnwpr');
@@ -132,7 +146,7 @@ export const createReviewEntry = (data,maxStar,container,myReview,ratingStarChar
 
 
 /* ---------- 刪除自己的評論 ---------- */
-export const deleteReview = (event,csrfToken,superagent) => {
+export const deleteReview = (event,csrfToken) => {
   
     const entryID = event.target.dataset.reviewid;
     

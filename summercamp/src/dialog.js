@@ -1,3 +1,9 @@
+import StarRating from 'star-rating.js';
+import autosize from 'autosize';
+import superagent from 'superagent';
+
+import {characterCountCheck} from './helper'; // 計算去掉空白後的字數
+
 /* ---------- Open Modal ---------- */
 export const openModal = (modal) => {
 
@@ -194,15 +200,9 @@ export const loginModal = (container,loginUrl) => {
 
 /* ---------- User rating and review Modal ---------- */
 export const reviewModal = (
+    screviews,
     container,
-    campName,
-    superagent,
-    autosize,
-    StarRating,
-    token,
-    myreview,
-    loadMyreviewContent,
-    characterCountCheck
+    token
 ) => {
 
     const wrapper = document.createElement('div');
@@ -214,7 +214,7 @@ export const reviewModal = (
     <div class="modal--container">
         <div class="modal--header">
             <h1>新增評分與評論</h1>
-            <h2>夏令營：${campName}</h2>
+            <h2>夏令營：${screviews.sc_name}</h2>
         </div>
         <div class="modal--content">  
         
@@ -260,7 +260,6 @@ export const reviewModal = (
 
     
     // 最大星星數
-    // const maxStarValue = screviews.stars.length;
     let maxStarValue = 5;
     if(screviews.stars){
         maxStarValue = screviews.stars.length;
@@ -312,16 +311,15 @@ export const reviewModal = (
     });
 
     // 如果已經存在 myrevuew，帶入資料
-    if(myreview){
+    if(screviews.myreview){
 
         wrapper.querySelector('.modal--header h1').textContent = '編輯評分與評論';
 
         loadMyreviewContent(
-            myreview,
-            starRatingControls,
+            screviews,                 
             starRatingEl,
-            reviewModalInput,
-            characterCountCheck,
+            starRatingControls,
+            reviewModalInput,        
             hintCount,
             hintQualified
         );
@@ -342,17 +340,15 @@ export const reviewModal = (
         userSelectRatingText.textContent = '尚未評分';
         
         // 清除 textarea
-        reviewModalInput.value = '';
-        // autosize.update(reviewModalInput);
+        reviewModalInput.value = '';  
 
         // reset, 帶入 myreview 內容
-        if(myreview){
+        if(screviews.myreview){
             loadMyreviewContent(
-                myreview,
-                starRatingControls,
+                screviews,                 
                 starRatingEl,
-                reviewModalInput,
-                characterCountCheck,
+                starRatingControls,
+                reviewModalInput,        
                 hintCount,
                 hintQualified
             );
@@ -376,11 +372,11 @@ export const reviewModal = (
                 review: reviewModalInput.value
             };
 
-            if(myreview){
+            if(screviews.myreview){
                 // 如果 myreview 已存在，則更新評論內容
                 // update             
                 sendContent.crud = 'u';
-                sendContent.screview_id = screviews['myreview']['id'];
+                sendContent.screview_id = screviews.myreview.id;
 
             } else {
                 // myreview 不存在，新增評論
@@ -392,8 +388,23 @@ export const reviewModal = (
                 .post('/summercamp/screview')                
                 .set('X-CSRF-TOKEN', token)
                 .send(sendContent)
-                .then(res => {
-                    console.log(JSON.parse(res.text));
+                .then(res => {          
+
+                    // 返回的資料
+                    // const resData = JSON.parse(res.text).data;                    
+                    // console.log(resData);
+
+                    // const sectionwpr = document.getElementById('reviewSection');
+                    // const reviewContainer = sectionwpr.querySelector('.reviewContainer');
+
+                    // // 移除所有評論內容
+                    // sectionwpr.removeChild(reviewContainer);            
+
+                    // 根據返回的資料，重新產生所有評論                    
+                    // ratingSum(參數);
+                    // ratingDetail(參數);
+                    // showReview(參數);
+
                     
                     // 測試用，force reload
                     window.location.reload(true);
@@ -402,7 +413,6 @@ export const reviewModal = (
                     console.log(err);                    
                 });
 
-            // autosize.update(reviewModalInput);
             closeModal(wrapper);     
 
         } else {
@@ -419,17 +429,18 @@ export const reviewModal = (
 
 /* ---------- 帶入 myreview 內容 ---------- */
 export const loadMyreviewContent = (
-    data,
-    starRatingControls,
+    screviews,
+
     starRatingEl,
+    starRatingControls,
+    
     reviewModalInput,
-    characterCountCheck,
     hintCount,
     hintQualified
 ) => {
 
     // 帶入星星數
-    const scores = data.scores;
+    const scores = screviews.myreview.scores;
     const options = starRatingEl.querySelectorAll('option');
     const index = options.length - scores;
 
@@ -439,7 +450,7 @@ export const loadMyreviewContent = (
     starRatingControls.rebuild();
 
     // 帶入評論內容
-    reviewModalInput.value = data.review;
+    reviewModalInput.value = screviews.myreview.review;
     
     characterCountCheck(reviewModalInput,hintCount,hintQualified); 
 

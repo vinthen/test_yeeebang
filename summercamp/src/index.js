@@ -1,31 +1,23 @@
 // plugins
 import Swiper from 'swiper';
-import superagent from 'superagent';
 import autosize from 'autosize';
-
-const StarRating = require('star-rating.js');
 
 // rating
 import {
-  ratingStarChart,
   ratingSum,  
   ratingDetail
 } from './rating';
 
 // review
 import {
-  showReview,
-  createReviewEntry,
-  deleteReview
+  showReview
 } from './review';
 
 // dialog
 import {
   openModal,
-  closeModal,
   loginModal,
-  reviewModal,
-  loadMyreviewContent
+  reviewModal
 } from './dialog';
 
 // user login, logout
@@ -33,17 +25,10 @@ import {
   userControl
 } from './user';
 
-// helpers
-import {
-  formateDate,
-  characterCountCheck
-} from './helper';
-
 
 // Token
 const csrfToken = document.head.querySelector("[name=csrf-token]").content;
 
-const campName = screviews.sc_name;
 
 /* ---------- swiper image gallery ---------- */
 let gallery = new Swiper(".swiper-container", {
@@ -107,39 +92,26 @@ document.querySelector('.main--content .centerwpr').appendChild(rSectionwpr);
 
 
 /* ---------- rating ---------- */
-{
-  // basic info: rating sum
-  ratingSum(
-    screviews,
-    userinfo,
-    document.querySelector('.basic-info ul'),
-    'li'
-  );
+// basic info: rating sum
+ratingSum(
+  screviews,
+  userinfo,
+  document.querySelector('.basic-info ul'),
+  'li'
+);
 
-  // rating and review section
-  ratingDetail(
-    screviews,
-    rSectionwpr
-  )
-  // ratingSection(screviews,document.querySelector('.main--content .centerwpr'));
-}
-
-document.querySelector('.star-container').addEventListener('click',() => {
-
-  document.getElementById('reviewSection').scrollIntoView({ 
-    behavior: 'smooth' 
-  });
-
-});
+// rating detail
+ratingDetail(
+  screviews,
+  document.getElementById('reviewSection')
+)
 
 /* ---------- review section ---------- */
 showReview(
-  rSectionwpr,
+  document.getElementById('reviewSection'),
   screviews,
-  createReviewEntry,
-  ratingStarChart,
-  formateDate
-)
+  csrfToken
+);
 
 
 /* ---------- login modal ---------- */
@@ -150,19 +122,13 @@ loginModal(
 
 /* ---------- user rating and review modal ---------- */
 reviewModal(
+  screviews,
   document.querySelector('.outerWpr'),
-  campName,
-  superagent,
-  autosize,
-  StarRating,
-  csrfToken,
-  screviews.myreview,
-  loadMyreviewContent,
-  characterCountCheck
+  csrfToken
 );
 
 // 隱藏 revieiw--coupon
-if(userinfo.screviews_counts > 0){
+if(userinfo != null && userinfo.screviews_counts > 0){
   document.querySelector('.revieiw--coupon').classList.add('hide');
 }
 
@@ -187,30 +153,3 @@ userControl(
   userinfo,
   logingroup
 );
-
-document.querySelector('#ucLoginbtn').addEventListener('click', () => {
-  // 開啟 Login Modal  
-  openModal(document.getElementById('loginModal'));
-  
-});
-
-/* ---------- 刪除與編輯評論 ---------- */
-if(screviews.myreview) {
-
-  // 刪除評分與評論
-  document.querySelector('.reviewEntry--delete').addEventListener('click',(event) => {
-    deleteReview(
-      event,
-      csrfToken,
-      superagent
-    );
-  });
-
-  // 編輯評論
-  document.querySelector('.reviewEntry--edit').addEventListener('click',(event) => {
-    openModal(document.getElementById('reviewModal'));
-    autosize.update(document.getElementById('reviewModalInput'));
-  });
-
-}
-

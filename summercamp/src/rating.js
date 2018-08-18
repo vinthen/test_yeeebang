@@ -1,5 +1,13 @@
 /* ---------- 產生 rating star chart ---------- */
 export const ratingStarChart = (average,max) => {
+
+    if(!average){
+        average = 0;
+    }
+
+    if(!max){
+        max = 5;
+    }
         
     if(average > max){
         average = max;
@@ -57,19 +65,18 @@ export const ratingStarChart = (average,max) => {
 
 
 /* ---------- basic info rating sum ---------- */
-export const ratingSum = (data,userinfo,wrapper,element) => {
+export const ratingSum = (screviews,userinfo,wrapper,element) => {
 
     // 分數
     // let average = data.average;
     let average = 0;
-    if(data.average){
-        average = data.average;
+    if(screviews.average){
+        average = screviews.average;
     }
 
     let max = 5;
-
-    if(data.stars){
-        max = data.stars.length;
+    if(screviews.stars){
+        max = screviews.stars.length;
     }
     
     if(average > max){
@@ -79,7 +86,7 @@ export const ratingSum = (data,userinfo,wrapper,element) => {
     }
 
     // 評分數    
-    let counts = data.counts;
+    let counts = screviews.counts;
     let countsText = null;
     if(counts > 0){
         countsText = `${counts} 個評分`;
@@ -93,7 +100,7 @@ export const ratingSum = (data,userinfo,wrapper,element) => {
         triggerText = '登入後即可評分';
     } else {
 
-        if(data.myreview){
+        if(screviews.myreview){
             triggerText = '編輯我的評分';
         } else {
             triggerText = '新增評分';
@@ -118,6 +125,13 @@ export const ratingSum = (data,userinfo,wrapper,element) => {
         ratingStarChart(average,max),
         ratingSum
     );
+
+    // 捲動到 reviewSection
+    el.querySelector('.star-container').addEventListener('click',() => {
+        document.getElementById('reviewSection').scrollIntoView({ 
+            behavior: 'smooth' 
+        });    
+    });
     
 } // ratingSum
 
