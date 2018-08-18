@@ -14,7 +14,7 @@ export const closeModal = (modal) => {
 
 } // closeModal
 
-/* ---------- login ---------- */
+/* ---------- login Modal ---------- */
 export const loginModal = (container,loginUrl) => {
 
     const wrapper = document.createElement('div');
@@ -105,6 +105,7 @@ export const loginModal = (container,loginUrl) => {
     const loginLinkGoogleManager = loginUrl['1'][1];
     /* ---------- */
 
+    // 選擇登入的身分別
     loginTypeBtns.forEach((btn) => {
 
         btn.addEventListener('click',(event) => {
@@ -161,7 +162,7 @@ export const loginModal = (container,loginUrl) => {
 
     });
 
-    /* ----- 檢查是否已經選擇身分別 ----- */ 
+    /* ----- 在按下社群登入按鈕之前，檢查是否已經選擇身分別 ----- */ 
     wrapper.querySelectorAll('.loginbtn').forEach((btn) => {
 
         btn.addEventListener('click',(event) => {
@@ -191,8 +192,18 @@ export const loginModal = (container,loginUrl) => {
 } // loginModal
 
 
-/* ---------- user rating and review ---------- */
-export const reviewModal = (container,campName,superagent,autosize,StarRating,token,myreview) => {
+/* ---------- User rating and review Modal ---------- */
+export const reviewModal = (
+    container,
+    campName,
+    superagent,
+    autosize,
+    StarRating,
+    token,
+    myreview,
+    loadMyreviewContent,
+    characterCountCheck
+) => {
 
     const wrapper = document.createElement('div');
     wrapper.id = 'reviewModal';
@@ -247,23 +258,30 @@ export const reviewModal = (container,campName,superagent,autosize,StarRating,to
 
     container.appendChild(wrapper);
 
-    const maxStarValue = screviews.stars.length;
-    // console.log(maxStarValue);
+    
+    // 最大星星數
+    // const maxStarValue = screviews.stars.length;
+    let maxStarValue = 5;
+    if(screviews.stars){
+        maxStarValue = screviews.stars.length;
+    }
 
-    // star rating
+    // star rating (use StarRating plugin)
     const starRatingEl = wrapper.querySelector('.star-rating');
     let starRatingControls = new StarRating(starRatingEl,{ 
         maxStars: maxStarValue,
         showText: false
     });
 
+    // 使用者選擇的星星數
     let userSelectRatingScore = 0;
 
     let userSelectRatingText = wrapper.querySelector('#userSelectRatingText');
 
     starRatingEl.addEventListener('change',(event) => {
-        userSelectRatingScore = event.target.value
-        // console.log(userSelectRatingScore);
+        
+        // 取得使用者選擇的星星數
+        userSelectRatingScore = event.target.value;    
 
         if(userSelectRatingScore != ''){
             userSelectRatingText.textContent = `${userSelectRatingScore} 星`;
@@ -285,57 +303,30 @@ export const reviewModal = (container,campName,superagent,autosize,StarRating,to
 
     reviewModalInput.addEventListener('input', (event) => {
 
-        characterCountCheck(event.target);      
+        characterCountCheck(
+            event.target,
+            hintCount,
+            hintQualified
+        ); 
 
     });
 
-    const characterCountCheck = (target) => {
-
-        // 去掉空白
-        let originValue = target.value;
-        let trimValue = originValue.replace(/\s+|　+/g,''); 
-
-        // 計算字數
-        let inputCount = trimValue.length;
-
-        hintCount.textContent = inputCount;
-        
-        if(inputCount > 10){
-            hintQualified.classList.add('show');
-        } else {
-            hintQualified.classList.remove('show');
-        }
-    }
-
-    // 已經存在 myrevuew，帶入資料
+    // 如果已經存在 myrevuew，帶入資料
     if(myreview){
 
         wrapper.querySelector('.modal--header h1').textContent = '編輯評分與評論';
 
-        loadMyreviewContent(myreview,autosize);
+        loadMyreviewContent(
+            myreview,
+            starRatingControls,
+            starRatingEl,
+            reviewModalInput,
+            characterCountCheck,
+            hintCount,
+            hintQualified
+        );
         
     }
-
-    // 帶入 myreview 內容
-    function loadMyreviewContent(data) {
-
-        // 帶入星星數
-        const scores = data.scores;
-        const options = starRatingEl.querySelectorAll('option');
-        const index = options.length - scores;
-
-        options[index].selected = true;
-        const triggerEvent = new Event('change');
-        starRatingEl.dispatchEvent(triggerEvent);
-        starRatingControls.rebuild();
-
-        // 帶入評論內容
-        reviewModalInput.value = data.review;
-        characterCountCheck(reviewModalInput); 
-
-    }
-
-
 
     /* ----- overlay 關閉 ----- */
     wrapper.querySelector('.modal--overlay').addEventListener('click',() => {
@@ -356,7 +347,15 @@ export const reviewModal = (container,campName,superagent,autosize,StarRating,to
 
         // reset, 帶入 myreview 內容
         if(myreview){
-            loadMyreviewContent(myreview);
+            loadMyreviewContent(
+                myreview,
+                starRatingControls,
+                starRatingEl,
+                reviewModalInput,
+                characterCountCheck,
+                hintCount,
+                hintQualified
+            );
         }
 
         closeModal(wrapper);
@@ -377,28 +376,15 @@ export const reviewModal = (container,campName,superagent,autosize,StarRating,to
                 review: reviewModalInput.value
             };
 
-            // console.log(myreview);
-
             if(myreview){
-                // update
-                // sendContent = {
-                //     sc_id: screviews['sc_id'],
-                //     crud: 'u',
-                //     scores: userSelectRatingScore,
-                //     review: reviewModalInput.value,
-                //     screview_id: screviews['myreview']['id']
-                // }
+                // 如果 myreview 已存在，則更新評論內容
+                // update             
                 sendContent.crud = 'u';
                 sendContent.screview_id = screviews['myreview']['id'];
 
             } else {
-                // create
-                // sendContent = {
-                //     sc_id: screviews['sc_id'],
-                //     crud: 'c',
-                //     scores: userSelectRatingScore,
-                //     review: reviewModalInput.value
-                // }
+                // myreview 不存在，新增評論
+                // create           
                 sendContent.crud = 'c';
             }
 
@@ -429,3 +415,32 @@ export const reviewModal = (container,campName,superagent,autosize,StarRating,to
 
 
 } // reviewModal
+
+
+/* ---------- 帶入 myreview 內容 ---------- */
+export const loadMyreviewContent = (
+    data,
+    starRatingControls,
+    starRatingEl,
+    reviewModalInput,
+    characterCountCheck,
+    hintCount,
+    hintQualified
+) => {
+
+    // 帶入星星數
+    const scores = data.scores;
+    const options = starRatingEl.querySelectorAll('option');
+    const index = options.length - scores;
+
+    options[index].selected = true;
+    const triggerEvent = new Event('change');
+    starRatingEl.dispatchEvent(triggerEvent);
+    starRatingControls.rebuild();
+
+    // 帶入評論內容
+    reviewModalInput.value = data.review;
+    
+    characterCountCheck(reviewModalInput,hintCount,hintQualified); 
+
+} // loadMyreviewContent

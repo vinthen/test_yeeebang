@@ -378,7 +378,8 @@ position:relative; top:1px;
 }
 
 /* 目前登入使用者的評論 */ 
-.myreviewEntry {padding:10px 0;
+.myreviewEntry {padding:10px 0; margin-bottom:20px;
+border-top:2px solid rgba(0,0,0,.04);
 border-bottom:2px solid rgba(0,0,0,.04);
 }
 
@@ -562,6 +563,8 @@ width:0; height:0; position:absolute; left:30px; top:-8px;
 border-style:solid; border-width:0 8px 8px 8px;
 border-color:transparent transparent #0f7add transparent;
 }
+
+.revieiw--coupon.hide {display:none;}
 
 .revieiw--coupon h4 {margin-bottom:8px;
 font-size:17px;

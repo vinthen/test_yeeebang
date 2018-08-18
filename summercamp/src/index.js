@@ -24,7 +24,8 @@ import {
   openModal,
   closeModal,
   loginModal,
-  reviewModal
+  reviewModal,
+  loadMyreviewContent
 } from './dialog';
 
 // user login, logout
@@ -34,12 +35,15 @@ import {
 
 // helpers
 import {
-  formateDate
+  formateDate,
+  characterCountCheck
 } from './helper';
 
 
 // Token
 const csrfToken = document.head.querySelector("[name=csrf-token]").content;
+
+const campName = screviews.sc_name;
 
 /* ---------- swiper image gallery ---------- */
 let gallery = new Swiper(".swiper-container", {
@@ -152,8 +156,15 @@ reviewModal(
   autosize,
   StarRating,
   csrfToken,
-  screviews.myreview
+  screviews.myreview,
+  loadMyreviewContent,
+  characterCountCheck
 );
+
+// 隱藏 revieiw--coupon
+if(userinfo.screviews_counts > 0){
+  document.querySelector('.revieiw--coupon').classList.add('hide');
+}
 
 // open login / review modal
 document.querySelector('#ratingTrigger').addEventListener('click', (event) => {

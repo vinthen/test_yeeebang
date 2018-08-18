@@ -60,8 +60,17 @@ export const ratingStarChart = (average,max) => {
 export const ratingSum = (data,userinfo,wrapper,element) => {
 
     // 分數
-    let average = data.average;
-    let max = data.stars.length;
+    // let average = data.average;
+    let average = 0;
+    if(data.average){
+        average = data.average;
+    }
+
+    let max = 5;
+
+    if(data.stars){
+        max = data.stars.length;
+    }
     
     if(average > max){
         average = max;
@@ -74,7 +83,7 @@ export const ratingSum = (data,userinfo,wrapper,element) => {
     let countsText = null;
     if(counts > 0){
         countsText = `${counts} 個評分`;
-    } else if (counts == 0){
+    } else{
         countsText = '尚未有人評分'
     }
     
@@ -120,8 +129,22 @@ export const ratingDetail = (data,sectionwpr) => {
     const ratingwpr = document.createElement('div');
     ratingwpr.classList.add('ratingSummary');
 
-    let average = data.average;
-    let max = data.stars.length;  
+    // let average = data.average;
+    let average = 0;
+    if(data.average){
+        average = data.average;
+    }
+    // let max = data.stars.length;  
+    let max = 5;
+
+    let ratingAmount = 0;
+    let starAmount = [0,0,0,0,0];
+
+    if(data.stars){
+        max = data.stars.length;
+        starAmount = data.stars.reverse(); // [5星, 4星 ,3星, 2星, 1星]
+        ratingAmount = data.counts;
+    }
     
     if(average > max){
         average = max;
@@ -129,8 +152,8 @@ export const ratingDetail = (data,sectionwpr) => {
         average = 0;
     }
 
-    const ratingAmount = data.counts;
-    const starAmount = data.stars.reverse(); // [5星, 4星 ,3星, 2星, 1星]
+    // const ratingAmount = data.counts;
+    // const starAmount = data.stars.reverse(); // [5星, 4星 ,3星, 2星, 1星]
 
     ratingwpr.innerHTML = 
     `<div class="ratingSummary--avg">
@@ -151,7 +174,10 @@ export const ratingDetail = (data,sectionwpr) => {
         const el = document.createElement('div');
         el.classList.add('rates-entry');
 
-        const percent = (starAmount[i] / ratingAmount) * 100;
+        let percent = (starAmount[i] / ratingAmount) * 100;
+        if(isNaN(percent)){
+            percent = 0;
+        }
 
         el.innerHTML = 
         `<div class="rates--star__text">${max - i}星</div>

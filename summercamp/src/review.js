@@ -7,17 +7,24 @@ export const showReview = (sectionwpr,screviews,createReviewEntry,ratingStarChar
     const reviewContainer = document.createElement('div');
     reviewContainer.classList.add('reviewContainer');
 
-    reviewContainer.innerHTML = '<h3>評論</h3>';
+    // reviewContainer.innerHTML = '<h3>評論</h3>';
 
     sectionwpr.appendChild(reviewContainer);
 
     const reviewEntrywpr = document.createElement('div');
     reviewEntrywpr.classList.add('reviewEntrywpr');
 
+    reviewEntrywpr.innerHTML = `<h4>所有評論</h4>`;
+
     reviewContainer.appendChild(reviewEntrywpr);
 
-    const maxStar = screviews.stars.length;
-    console.log('maxStar: ' + maxStar);
+    let maxStar = 5;
+    if(screviews.stars){
+        maxStar = screviews.stars.length;
+    }
+
+    // const maxStar = screviews.stars.length;
+    // console.log('maxStar: ' + maxStar);
 
     if(screviews.list.length > 0){
         // 顯示評論條目
@@ -47,6 +54,8 @@ export const showReview = (sectionwpr,screviews,createReviewEntry,ratingStarChar
         // console.log('目前登入使用者有評論');
         const myreviewEntry = document.createElement('div');
         myreviewEntry.classList.add('myreviewEntry');
+
+        myreviewEntry.innerHTML = `<h4>我的評論</h4>`;
 
         createReviewEntry(
             screviews.myreview,
