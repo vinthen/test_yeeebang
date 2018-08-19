@@ -10,8 +10,8 @@ import autosize from 'autosize';
 /* ---------- 顯示所有評論 ---------- */
 export const showReview = (
     sectionwpr, // sectionwpr: 包含星星數統計與所有評論的 section
-    screviews, // screviews: 資料
-    csrfToken // token
+    _screviews, // screviews: 資料
+    token // token
 ) => {
 
     const reviewContainer = document.createElement('div');
@@ -28,13 +28,13 @@ export const showReview = (
 
     // 最大星星數
     let maxStar = 5;
-    if(screviews.stars){
-        maxStar = screviews.stars.length;
+    if(_screviews.stars){
+        maxStar = _screviews.stars.length;
     }
 
-    if(screviews.list.length > 0){
+    if(_screviews.list.length > 0){
         // 顯示評論條目
-        screviews.list.forEach((listItem) => {
+        _screviews.list.forEach((listItem) => {
             createReviewEntry(
                 listItem,
                 maxStar,
@@ -53,7 +53,7 @@ export const showReview = (
     }
 
     // 目前登入使用者的評論
-    if(screviews.myreview){
+    if(_screviews.myreview){
         // 目前登入使用者有評論
         const myreviewEntry = document.createElement('div');
         myreviewEntry.classList.add('myreviewEntry');
@@ -61,7 +61,7 @@ export const showReview = (
         myreviewEntry.innerHTML = '<h4>我的評論</h4>';
 
         createReviewEntry(
-            screviews.myreview,
+            _screviews.myreview,
             maxStar,
             myreviewEntry,
             true
@@ -74,7 +74,7 @@ export const showReview = (
         myreviewEntry.querySelector('.reviewEntry--delete')
         .addEventListener('click',(event) => {
 
-            deleteReview(event,csrfToken);
+            deleteReview(event,_screviews,token);
 
         });
 
@@ -148,15 +148,15 @@ export const createReviewEntry = (
 
 
 /* ---------- 刪除自己的評論 ---------- */
-export const deleteReview = (event,csrfToken) => {
+export const deleteReview = (event,_screviews,token) => {
   
     const entryID = event.target.dataset.reviewid;
     
     superagent
         .post('/summercamp/screview')                
-        .set('X-CSRF-TOKEN', csrfToken)
+        .set('X-CSRF-TOKEN', token)
         .send({
-            sc_id: screviews['sc_id'],
+            sc_id: _screviews.sc_id,
             crud: 'd',
             screview_id: entryID,
         })
@@ -170,7 +170,7 @@ export const deleteReview = (event,csrfToken) => {
             updateContent(
                 resData.screviews,
                 resData.userinfo,
-                csrfToken,
+                token,
                 false
             );      
           

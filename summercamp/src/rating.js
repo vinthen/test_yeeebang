@@ -65,18 +65,18 @@ export const ratingStarChart = (average,max) => {
 
 
 /* ---------- basic info rating sum ---------- */
-export const ratingSum = (screviews,userinfo,wrapper,element) => {
+export const ratingSum = (_screviews,_userinfo,wrapper,element) => {
 
     // 分數
-    // let average = data.average;
+    // let average = _screviews.average;
     let average = 0;
-    if(screviews.average){
-        average = screviews.average;
+    if(_screviews.average){
+        average = _screviews.average;
     }
 
     let max = 5;
-    if(screviews.stars){
-        max = screviews.stars.length;
+    if(_screviews.stars){
+        max = _screviews.stars.length;
     }
     
     if(average > max){
@@ -86,7 +86,7 @@ export const ratingSum = (screviews,userinfo,wrapper,element) => {
     }
 
     // 評分數    
-    let counts = screviews.counts;
+    let counts = _screviews.counts;
     let countsText = null;
     if(counts > 0){
         countsText = `${counts} 個評分`;
@@ -96,11 +96,11 @@ export const ratingSum = (screviews,userinfo,wrapper,element) => {
     
     // 評分按鈕文字
     let triggerText = '';
-    if(!userinfo){
+    if(!_userinfo){
         triggerText = '登入後即可評分';
     } else {
 
-        if(screviews.myreview){
+        if(_screviews.myreview){
             triggerText = '編輯我的評分';
         } else {
             triggerText = '新增評分';
@@ -137,27 +137,27 @@ export const ratingSum = (screviews,userinfo,wrapper,element) => {
 
 
 /* ---------- ratingDetail ---------- */
-export const ratingDetail = (data,sectionwpr) => {
+export const ratingDetail = (_screviews,sectionwpr) => {
 
     // rating
     const ratingwpr = document.createElement('div');
     ratingwpr.classList.add('ratingSummary');
 
-    // let average = data.average;
+    // let average = _screviews.average;
     let average = 0;
-    if(data.average){
-        average = data.average;
+    if(_screviews.average){
+        average = _screviews.average;
     }
-    // let max = data.stars.length;  
+    // let max = _screviews.stars.length;  
     let max = 5;
 
     let ratingAmount = 0;
     let starAmount = [0,0,0,0,0];
 
-    if(data.stars){
-        max = data.stars.length;
-        starAmount = data.stars.reverse(); // [5星, 4星 ,3星, 2星, 1星]
-        ratingAmount = data.counts;
+    if(_screviews.stars){
+        max = _screviews.stars.length;
+        starAmount = _screviews.stars.reverse(); // [5星, 4星 ,3星, 2星, 1星]
+        ratingAmount = _screviews.counts;
     }
     
     if(average > max){
@@ -166,8 +166,8 @@ export const ratingDetail = (data,sectionwpr) => {
         average = 0;
     }
 
-    // const ratingAmount = data.counts;
-    // const starAmount = data.stars.reverse(); // [5星, 4星 ,3星, 2星, 1星]
+    // const ratingAmount = _screviews.counts;
+    // const starAmount = _screviews.stars.reverse(); // [5星, 4星 ,3星, 2星, 1星]
 
     ratingwpr.innerHTML = 
     `<div class="ratingSummary--avg">

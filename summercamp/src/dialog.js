@@ -23,11 +23,11 @@ export const closeModal = (modal) => {
 } // closeModal
 
 /* ---------- Rating Trigger Eventlistener ---------- */
-export const ratingTriggerControl = (trigger,userinfo) => {
+export const ratingTriggerControl = (trigger,_userinfo) => {
 
     trigger.addEventListener('click', () => {
   
-        if(!userinfo){
+        if(!_userinfo){
           // 開啟 Login Modal
           openModal(document.getElementById('loginModal'));
         } else {
@@ -221,7 +221,7 @@ export const loginModal = (container,loginUrl) => {
 
 /* ---------- User rating and review Modal ---------- */
 export const reviewModal = (
-    screviews,
+    _screviews,
     container,
     token
 ) => {
@@ -235,7 +235,7 @@ export const reviewModal = (
     <div class="modal--container">
         <div class="modal--header">
             <h1>新增評分與評論</h1>
-            <h2>夏令營：${screviews.sc_name}</h2>
+            <h2>夏令營：${_screviews.sc_name}</h2>
         </div>
         <div class="modal--content">  
         
@@ -282,8 +282,8 @@ export const reviewModal = (
     
     // 最大星星數
     let maxStarValue = 5;
-    if(screviews.stars){
-        maxStarValue = screviews.stars.length;
+    if(_screviews.stars){
+        maxStarValue = _screviews.stars.length;
     }
 
     // star rating (use StarRating plugin)
@@ -332,12 +332,12 @@ export const reviewModal = (
     });
 
     // 如果已經存在 myrevuew，帶入資料
-    if(screviews.myreview){
+    if(_screviews.myreview){
 
         wrapper.querySelector('.modal--header h1').textContent = '編輯評分與評論';
 
         loadMyreviewContent(
-            screviews,                 
+            _screviews,                 
             starRatingEl,
             starRatingControls,
             reviewModalInput,        
@@ -364,9 +364,9 @@ export const reviewModal = (
         reviewModalInput.value = '';  
 
         // reset, 帶入 myreview 內容
-        if(screviews.myreview){
+        if(_screviews.myreview){
             loadMyreviewContent(
-                screviews,                 
+                _screviews,                 
                 starRatingEl,
                 starRatingControls,
                 reviewModalInput,        
@@ -387,17 +387,17 @@ export const reviewModal = (
             // console.log('評論內容：' + reviewModalInput.value);
 
             let sendContent = {
-                sc_id: screviews['sc_id'],
+                sc_id: _screviews.sc_id,
                 crud: '',
                 scores: userSelectRatingScore,
                 review: reviewModalInput.value
             };
 
-            if(screviews.myreview){
+            if(_screviews.myreview){
                 // 如果 myreview 已存在，則更新評論內容
                 // update             
                 sendContent.crud = 'u';
-                sendContent.screview_id = screviews.myreview.id;
+                sendContent.screview_id = _screviews.myreview.id;
 
             } else {
                 // myreview 不存在，新增評論
@@ -445,7 +445,7 @@ export const reviewModal = (
 
 /* ---------- 帶入 myreview 內容 ---------- */
 export const loadMyreviewContent = (
-    screviews,
+    _screviews,
 
     starRatingEl,
     starRatingControls,
@@ -456,7 +456,7 @@ export const loadMyreviewContent = (
 ) => {
 
     // 帶入星星數
-    const scores = screviews.myreview.scores;
+    const scores = _screviews.myreview.scores;
     const options = starRatingEl.querySelectorAll('option');
     const index = options.length - scores;
 
@@ -466,7 +466,7 @@ export const loadMyreviewContent = (
     starRatingControls.rebuild();
 
     // 帶入評論內容
-    reviewModalInput.value = screviews.myreview.review;
+    reviewModalInput.value = _screviews.myreview.review;
     
     characterCountCheck(reviewModalInput,hintCount,hintQualified); 
 

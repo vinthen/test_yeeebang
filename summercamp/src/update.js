@@ -3,7 +3,7 @@ import {showReview} from './review'; // 更新 review 相關的內容
 
 import {reviewModal,ratingTriggerControl} from './dialog';
 
-export const updateContent = (screviews,userinfo,csrfToken,init) => { 
+export const updateContent = (_screviews,_userinfo,token,init) => { 
 
     // init true | false (是否為初始狀態)
 
@@ -29,31 +29,31 @@ export const updateContent = (screviews,userinfo,csrfToken,init) => {
 
     // 根據返回的資料，重新產生相關的內容                    
     ratingSum(
-        screviews,
-        userinfo,
+        _screviews,
+        _userinfo,
         document.querySelector('.basic-info ul'),
         'li'
     );
 
     ratingDetail(
-        screviews,
+        _screviews,
         document.getElementById('reviewSection')
     )  
 
     showReview(
         document.getElementById('reviewSection'),
-        screviews,
-        csrfToken
+        _screviews,
+        token
     );        
     
     reviewModal(
-        screviews,
+        _screviews,
         document.querySelector('.outerWpr'),
-        csrfToken
+        token
     );
 
     // 隱藏 revieiw--coupon
-    if(userinfo != null && userinfo.screviews_counts > 0){
+    if(_userinfo != null && _userinfo.screviews_counts > 0){
         document.querySelector('.revieiw--coupon').classList.add('hide');
     }
 
@@ -61,20 +61,20 @@ export const updateContent = (screviews,userinfo,csrfToken,init) => {
     // open login or review modal (trigger click event)
     ratingTriggerControl(
         document.querySelector('#ratingTrigger'),
-        userinfo
+        _userinfo
     );
 
     // update user ybpoint
-    updateYBpoint(userinfo);
+    updateYBpoint(_userinfo);
 
-    console.log('content update!');
+    // console.log('content update!');
 
 }
 
-const updateYBpoint = (userinfo) => {
+const updateYBpoint = (_userinfo) => {
 
-    if(userinfo){
-        const ybpoints = userinfo.ybpoints;
+    if(_userinfo){
+        const ybpoints = _userinfo.ybpoints;
         // console.log(ybpoints)
         document.getElementById('ybpointCurrent').textContent = ybpoints;
         document.getElementById('ybpointHint').innerHTML = 

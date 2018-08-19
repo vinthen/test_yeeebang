@@ -1,6 +1,6 @@
 import {openModal} from './dialog'; // 開啟 modal
 
-export const userControl = (container,userinfo,logingroup) => {
+export const userControl = (container,_userinfo,_logingroup) => {
 
     const wrapper = document.createElement('div');
     wrapper.id = 'userControlwpr';
@@ -17,7 +17,7 @@ export const userControl = (container,userinfo,logingroup) => {
             <div id="ybpointCurrent"></div>
             <div id="ybpointHint"></div>
         </div>
-        <a id="ucLogoutbtn" href="${logingroup.logout}">登出</a>        
+        <a id="ucLogoutbtn" href="${_logingroup.logout}">登出</a>        
     </div>`;
 
     container.appendChild(wrapper);
@@ -25,7 +25,7 @@ export const userControl = (container,userinfo,logingroup) => {
     const ucLoginbtn = wrapper.querySelector('#ucLoginbtn');
     const ucInfo = wrapper.querySelector('.uc-info');
 
-    if(!userinfo){
+    if(!_userinfo){
         // 未登入
         if(wrapper.classList.contains('login')){
             wrapper.classList.remove('login');
@@ -35,8 +35,8 @@ export const userControl = (container,userinfo,logingroup) => {
         // 已登入
         wrapper.classList.add('login'); 
 
-        ucInfo.querySelector('.uc-info--avatar img').setAttribute('src',userinfo.avatar);
-        ucInfo.querySelector('.uc-info--name').textContent = userinfo.name;
+        ucInfo.querySelector('.uc-info--avatar img').setAttribute('src',_userinfo.avatar);
+        ucInfo.querySelector('.uc-info--name').textContent = _userinfo.name;
 
     }
 
