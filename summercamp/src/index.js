@@ -20,9 +20,10 @@ import {
 } from './dialog';
 
 // user login, logout
-import {
-  userControl
-} from './user';
+import {userControl} from './user';
+
+// 初始化 | 更新 rating 與 review 相關的內容
+import {updateContent} from './update';
 
 
 // Token
@@ -89,28 +90,32 @@ rSectionwpr.innerHTML = '<h2>家長評分與評論</h2>';
 
 document.querySelector('.main--content .centerwpr').appendChild(rSectionwpr);
 
-
+updateContent(
+  screviews,
+  csrfToken,
+  true
+);
 /* ---------- rating ---------- */
 // basic info: rating sum
-ratingSum(
-  screviews,
-  userinfo,
-  document.querySelector('.basic-info ul'),
-  'li'
-);
+// ratingSum(
+//   screviews,
+//   userinfo,
+//   document.querySelector('.basic-info ul'),
+//   'li'
+// );
 
 // rating detail
-ratingDetail(
-  screviews,
-  document.getElementById('reviewSection')
-)
+// ratingDetail(
+//   screviews,
+//   document.getElementById('reviewSection')
+// )
 
 /* ---------- review section ---------- */
-showReview(
-  document.getElementById('reviewSection'),
-  screviews,
-  csrfToken
-);
+// showReview(
+//   document.getElementById('reviewSection'),
+//   screviews,
+//   csrfToken
+// );
 
 
 /* ---------- login modal ---------- */
@@ -120,22 +125,22 @@ loginModal(
 );
 
 /* ---------- user rating and review modal ---------- */
-reviewModal(
-  screviews,
-  document.querySelector('.outerWpr'),
-  csrfToken
-);
+// reviewModal(
+//   screviews,
+//   document.querySelector('.outerWpr'),
+//   csrfToken
+// );
 
 // 隱藏 revieiw--coupon
-if(userinfo != null && userinfo.screviews_counts > 0){
-  document.querySelector('.revieiw--coupon').classList.add('hide');
-}
+// if(userinfo != null && userinfo.screviews_counts > 0){
+//   document.querySelector('.revieiw--coupon').classList.add('hide');
+// }
 
 // open login / review modal (trigger click event)
-ratingTriggerControl(
-  document.querySelector('#ratingTrigger'),
-  userinfo
-);
+// ratingTriggerControl(
+//   document.querySelector('#ratingTrigger'),
+//   userinfo
+// );
 
 /* ---------- user login / logout ---------- */
 userControl(

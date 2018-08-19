@@ -409,14 +409,16 @@ export const reviewModal = (
                 .post('/summercamp/screview')                
                 .set('X-CSRF-TOKEN', token)
                 .send(sendContent)
-                .then(res => {          
-
-                    // const resData = JSON.parse(res.text).data;
-                    // screviews = resData;      
-                    // updateContent(resData,csrfToken);
+                .then(res => {      
+                    
+                    const resData = JSON.parse(res.text).data.screviews;
+                    // if(screviews){
+                    //     screviews = null; 
+                    // }      
+                    updateContent(resData,token,false);                  
                     
                     // 測試用，force reload
-                    window.location.reload(true);
+                    // window.location.reload(true);
                 })
                 .catch(err => {
                     console.log(err);                    

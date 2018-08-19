@@ -162,9 +162,12 @@ export const deleteReview = (event,csrfToken) => {
         })
         .then(res => {
 
-            const resData = JSON.parse(res.text).data;
-            screviews = resData;      
-            updateContent(resData,csrfToken);
+            const resData = JSON.parse(res.text).data.screviews;
+            // if(screviews){
+            //     screviews = null; 
+            // }       
+                 
+            updateContent(resData,csrfToken,false);      
           
             // 測試用，force reload
             // window.location.reload(true);
