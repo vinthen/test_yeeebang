@@ -1,56 +1,11 @@
 var screviews = {
   sc_id: 528,
   sc_name: "\u7bc4\u4f8b\u8db3\u7403\u590f\u4ee4\u71df",
-  counts: 6,
-  average: 3.7000000000000002,
-  stars: [1, 0, 1, 2, 2],
-  myreview: {
-    id: 41,
-    user_id: 1761,
-    summercamp_id: 528,
-    tutorcenter_id: 5,
-    organization_id: 50121,
-    season: 20182,
-    scores: 3,
-    review: "\u7de8\u8f2f\u8a55\u5206\u6e2c\u8a66 123abc",
-    created_at: "2018-08-18 22:50:59",
-    updated_at: "2018-08-18 22:51:12",
-    name: "Lucita Sky",
-    avatar:
-      "https://graph.facebook.com/v2.10/2304904296192523/picture?type=normal"
-  },
+  counts: 4,
+  average: 3.2999999999999998,
+  stars: [1, 0, 1, 1, 1],
+  myreview: null,
   list: [
-    {
-      id: 45,
-      user_id: 1,
-      summercamp_id: 528,
-      tutorcenter_id: 5,
-      organization_id: 50121,
-      season: 20182,
-      scores: 4,
-      review: "nice summercamp 2",
-      created_at: "2018-08-18 23:34:33",
-      updated_at: "2018-08-18 23:34:33",
-      name: "Jackson Huang",
-      avatar:
-        "https://graph.facebook.com/v2.10/10213655718801538/picture?type=normal"
-    },
-    {
-      id: 44,
-      user_id: 8,
-      summercamp_id: 528,
-      tutorcenter_id: 5,
-      organization_id: 50121,
-      season: 20182,
-      scores: 1,
-      review:
-        "\u6211\u5c0f\u670b\u53cb\u89ba\u5f97\u8001\u5e2b\u602a\u602a\u7684\uff01",
-      created_at: "2018-08-18 23:01:05",
-      updated_at: "2018-08-18 23:01:05",
-      name: "Synerfun TT",
-      avatar:
-        "https://lh6.googleusercontent.com/-2AIqrNAOLs4/AAAAAAAAAAI/AAAAAAAAAAA/AAnnY7r2Tgq6ZveQ7AiMZZx2cJHr751gyA/mo/photo.jpg?sz=50"
-    },
     {
       id: 43,
       user_id: 2,
@@ -68,46 +23,47 @@ var screviews = {
         "https://lh6.googleusercontent.com/-CgPRgF5TaB4/AAAAAAAAAAI/AAAAAAAAO8U/M_h5ryDSj4c/photo.jpg?sz=50"
     },
     {
-      id: 41,
-      user_id: 1761,
+      id: 44,
+      user_id: 8,
       summercamp_id: 528,
       tutorcenter_id: 5,
       organization_id: 50121,
       season: 20182,
-      scores: 3,
-      review: "\u7de8\u8f2f\u8a55\u5206\u6e2c\u8a66 123abc",
-      created_at: "2018-08-18 22:50:59",
-      updated_at: "2018-08-18 22:51:12",
-      name: "Lucita Sky",
+      scores: 1,
+      review:
+        "\u6211\u5c0f\u670b\u53cb\u89ba\u5f97\u8001\u5e2b\u602a\u602a\u7684\uff01",
+      created_at: "2018-08-18 23:01:05",
+      updated_at: "2018-08-18 23:01:05",
+      name: "Synerfun TT",
       avatar:
-        "https://graph.facebook.com/v2.10/2304904296192523/picture?type=normal"
+        "https://lh6.googleusercontent.com/-2AIqrNAOLs4/AAAAAAAAAAI/AAAAAAAAAAA/APUIFaPqM1sUFvgiDIqz-LEMDIxXZkoPag/mo/photo.jpg?sz=50"
     },
     {
-      id: 40,
+      id: 67,
       user_id: 11,
       summercamp_id: 528,
       tutorcenter_id: 5,
       organization_id: 50121,
       season: 20182,
-      scores: 5,
-      review: "\u65b0\u589e\u8a55\u5206\u6e2c\u8a66 abc",
-      created_at: "2018-08-18 22:49:52",
-      updated_at: "2018-08-18 22:49:52",
+      scores: 3,
+      review: "\u7de8\u8f2f\u8a55\u5206\u6e2c\u8a661234 abc xyz",
+      created_at: "2018-08-19 03:34:14",
+      updated_at: "2018-08-19 17:58:36",
       name: "Vinthen Kuan",
       avatar:
         "https://graph.facebook.com/v2.10/1989733554375496/picture?type=normal"
     },
     {
-      id: 1,
+      id: 100,
       user_id: 1,
       summercamp_id: 528,
       tutorcenter_id: 5,
       organization_id: 50121,
       season: 20182,
       scores: 4,
-      review: "\u9019\u500b\u590f\u4ee4\u71df\u771f\u7684\u5f88\u68d2\uff01!",
-      created_at: "2018-08-09 14:46:44",
-      updated_at: "2018-08-18 08:57:02",
+      review: "nice summercamp 2",
+      created_at: "2018-08-19 15:07:36",
+      updated_at: "2018-08-19 15:07:36",
       name: "Jackson Huang",
       avatar:
         "https://graph.facebook.com/v2.10/10213655718801538/picture?type=normal"
@@ -122,7 +78,8 @@ var userinfo = {
   avatar:
     "https://graph.facebook.com/v2.10/2304904296192523/picture?type=normal",
   logingroup: 2,
-  screviews_counts: 1
+  screviews_counts: 0,
+  ybpoints: 200
 };
 console.log("userinfo:");
 console.log(userinfo);

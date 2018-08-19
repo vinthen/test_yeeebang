@@ -3,7 +3,7 @@ import {showReview} from './review'; // 更新 review 相關的內容
 
 import {reviewModal,ratingTriggerControl} from './dialog';
 
-export const updateContent = (resData,csrfToken,init) => { 
+export const updateContent = (screviews,userinfo,csrfToken,init) => { 
 
     // init true | false (是否為初始狀態)
 
@@ -29,25 +29,25 @@ export const updateContent = (resData,csrfToken,init) => {
 
     // 根據返回的資料，重新產生相關的內容                    
     ratingSum(
-        resData,
+        screviews,
         userinfo,
         document.querySelector('.basic-info ul'),
         'li'
     );
 
     ratingDetail(
-        resData,
+        screviews,
         document.getElementById('reviewSection')
     )  
 
     showReview(
         document.getElementById('reviewSection'),
-        resData,
+        screviews,
         csrfToken
     );        
     
     reviewModal(
-        resData,
+        screviews,
         document.querySelector('.outerWpr'),
         csrfToken
     );
@@ -64,6 +64,22 @@ export const updateContent = (resData,csrfToken,init) => {
         userinfo
     );
 
+    // update user ybpoint
+    updateYBpoint(userinfo);
+
     console.log('content update!');
+
+}
+
+const updateYBpoint = (userinfo) => {
+
+    if(userinfo){
+        const ybpoints = userinfo.ybpoints;
+        // console.log(ybpoints)
+        document.getElementById('ybpointCurrent').textContent = ybpoints;
+        document.getElementById('ybpointHint').innerHTML = 
+        `您目前有<br />${ybpoints} 藝幫幣`;
+
+    }
 
 }

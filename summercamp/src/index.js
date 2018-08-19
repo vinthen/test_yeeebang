@@ -1,23 +1,8 @@
 // plugins
 import Swiper from 'swiper';
 
-// rating
-import {
-  ratingSum,  
-  ratingDetail
-} from './rating';
-
-// review
-import {
-  showReview
-} from './review';
-
 // dialog
-import {
-  ratingTriggerControl,
-  loginModal,
-  reviewModal
-} from './dialog';
+import {loginModal} from './dialog';
 
 // user login, logout
 import {userControl} from './user';
@@ -81,6 +66,20 @@ function hideDownloadMenu(){
   overlay.classList.remove("active");
 }
 
+/* ---------- login modal ---------- */
+loginModal(
+  document.querySelector('.outerWpr'),
+  logingroup
+);
+
+
+/* ---------- user login / logout ---------- */
+userControl(
+  document.querySelector('.download'),
+  userinfo,
+  logingroup
+);
+
 /* ---------- create rating and review section ---------- */
 const rSectionwpr = document.createElement('section');
 rSectionwpr.classList.add('review');
@@ -92,59 +91,7 @@ document.querySelector('.main--content .centerwpr').appendChild(rSectionwpr);
 
 updateContent(
   screviews,
+  userinfo,
   csrfToken,
   true
-);
-/* ---------- rating ---------- */
-// basic info: rating sum
-// ratingSum(
-//   screviews,
-//   userinfo,
-//   document.querySelector('.basic-info ul'),
-//   'li'
-// );
-
-// rating detail
-// ratingDetail(
-//   screviews,
-//   document.getElementById('reviewSection')
-// )
-
-/* ---------- review section ---------- */
-// showReview(
-//   document.getElementById('reviewSection'),
-//   screviews,
-//   csrfToken
-// );
-
-
-/* ---------- login modal ---------- */
-loginModal(
-  document.querySelector('.outerWpr'),
-  logingroup
-);
-
-/* ---------- user rating and review modal ---------- */
-// reviewModal(
-//   screviews,
-//   document.querySelector('.outerWpr'),
-//   csrfToken
-// );
-
-// 隱藏 revieiw--coupon
-// if(userinfo != null && userinfo.screviews_counts > 0){
-//   document.querySelector('.revieiw--coupon').classList.add('hide');
-// }
-
-// open login / review modal (trigger click event)
-// ratingTriggerControl(
-//   document.querySelector('#ratingTrigger'),
-//   userinfo
-// );
-
-/* ---------- user login / logout ---------- */
-userControl(
-  document.querySelector('.download'),
-  userinfo,
-  logingroup
 );

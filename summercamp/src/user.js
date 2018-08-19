@@ -12,7 +12,12 @@ export const userControl = (container,userinfo,logingroup) => {
             <img src="" />
         </div>
         <div class="uc-info--name"></div>
-        <a id="ucLogoutbtn" href="${logingroup.logout}">登出</a>
+        <div class="ybpoint">
+            <div class="ybpoint--icon"></div>
+            <div id="ybpointCurrent"></div>
+            <div id="ybpointHint"></div>
+        </div>
+        <a id="ucLogoutbtn" href="${logingroup.logout}">登出</a>        
     </div>`;
 
     container.appendChild(wrapper);
