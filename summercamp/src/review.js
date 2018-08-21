@@ -130,6 +130,8 @@ export const createReviewEntry = (
     const ratingwpr = reviewEntry.querySelector('.rating');
     ratingwpr.appendChild(rating);
 
+    const entryContent = reviewEntry.querySelector('.reviewEntry--content');
+
     // 如果是 myreview，則需要加上刪除與編輯按鈕    
     if(myReview){
         const userBtnwpr = document.createElement('div');
@@ -138,8 +140,39 @@ export const createReviewEntry = (
         `<div class="reviewEntry--delete" data-reviewid="${data.id}">刪除</div>
         <div class="reviewEntry--edit" data-reviewid="${data.id}">編輯</div>`;            
 
-        const entryContent = reviewEntry.querySelector('.reviewEntry--content');
+        // const entryContent = reviewEntry.querySelector('.reviewEntry--content');
         entryContent.appendChild(userBtnwpr);
+    } else {
+        // 如果是一般評論，要加上檢舉的選項
+        const report = document.createElement('div');
+        report.classList.add('report');
+        report.innerHTML = 
+        `<div class="report--trigger">
+            <div class="report--icon"></div>
+        </div>
+        <div class="report--menu deselect">            
+            <h5>檢舉此則評論</h5>
+            <div class="report--hint">
+                <div class="report--loginbtn">
+                    <i class="fas fa-user"></i>登入
+                </div>
+            </div>
+            <div class="report--option">
+                <div class="report--reason" data-id="${data.id}" data-reason="1">沒有幫助</div>
+                <div class="report--reason" data-id="${data.id}" data-reason="2">內容不當</div>
+                <div class="report--reason" data-id="${data.id}" data-reason="3">垃圾內容</div>
+            </div>    
+            <div class="report--footer">
+                <div class="report--btn cancel">取消</div>
+                <div class="report--btn submit">送出</div>
+            </div>
+        </div>
+        <div class="report--feedback">檢舉已送出，謝謝您</div>
+        `;
+
+        // reviewEntry.appendChild(report);
+        entryContent.appendChild(report);
+
     }    
 
     container.appendChild(reviewEntry);

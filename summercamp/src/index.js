@@ -10,9 +10,16 @@ import {userControl} from './user';
 // 初始化 | 更新 rating 與 review 相關的內容
 import {updateContent} from './update';
 
+// Report abuse review
+import {reportAbuse} from './report';
+
 
 // Token
 const csrfToken = document.head.querySelector("[name=csrf-token]").content;
+
+if(!userinfo){
+  document.querySelector('body').classList.add('logout');
+}
 
 
 /* ---------- swiper image gallery ---------- */
@@ -95,3 +102,11 @@ updateContent(
   csrfToken,
   true
 );
+
+/* ---------- Report abuse review ---------- */
+// all report container
+const REPORT_NODE = document.querySelectorAll('.report');
+// all report menu
+const REPORT_MENU = document.querySelectorAll('.report--menu');
+
+reportAbuse(REPORT_NODE,REPORT_MENU,screviews.sc_id,csrfToken);

@@ -53,7 +53,7 @@ export const updateContent = (_screviews,_userinfo,token,init) => {
     );
 
     // 隱藏 revieiw--coupon
-    if(_userinfo != null && _userinfo.screviews_counts > 0){
+    if(_userinfo != null && _userinfo.showhk != 1){
         document.querySelector('.revieiw--coupon').classList.add('hide');
     }
 
@@ -74,12 +74,13 @@ export const updateContent = (_screviews,_userinfo,token,init) => {
 const updateYBpoint = (_userinfo) => {
 
     if(_userinfo){
-        const ybpoints = _userinfo.ybpoints;
-        // console.log(ybpoints)
-        document.getElementById('ybpointCurrent').textContent = ybpoints;
-        document.getElementById('ybpointHint').innerHTML = 
-        `您目前有<br />${ybpoints} 藝幫幣`;
-
+        if(_userinfo.ybpoints){
+            const ybpoints = _userinfo.ybpoints;
+            // console.log(ybpoints)
+            document.getElementById('ybpointCurrent').textContent = ybpoints;
+            document.getElementById('ybpointHint').innerHTML = 
+            `您目前有<br />${ybpoints} 藝幫幣`;
+        }
     }
 
 }

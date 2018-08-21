@@ -14,8 +14,8 @@ export const userControl = (container,_userinfo,_logingroup) => {
         <div class="uc-info--name"></div>
         <div class="ybpoint">
             <div class="ybpoint--icon"></div>
-            <div id="ybpointCurrent"></div>
-            <div id="ybpointHint"></div>
+            <div id="ybpointCurrent">&nbsp;0</div>
+            <div id="ybpointHint">您目前有<br />0 藝幫幣</div>
         </div>
         <a id="ucLogoutbtn" href="${_logingroup.logout}">登出</a>        
     </div>`;
