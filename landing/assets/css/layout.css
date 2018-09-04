@@ -1,0 +1,141 @@
+@charset "utf-8";
+/* ---------- reset ---------- */
+body,dl,dt,dd,ul,ol,li,th,td,form,input,textarea,p {margin:0; padding:0;}
+img {display:block; border:0;}
+li {list-style:none}
+sup {vertical-align:text-top;}
+sub {vertical-align:text-bottom;}
+article,aside,canvas,figure,figure img,figcaption,footer,header,hgroup,menu,nav,section,audio,video {display:block; margin:0; padding:0;}
+
+/* Typekit current available font-weight: 400, 700 */
+
+/* ---------- global ---------- */
+html {overflow-y:scroll;}
+body {text-align:center; font-size:16px; line-height:1.5; color:#333;
+font-family: "source-han-sans-traditional","微軟正黑體", "Microsoft JhengHei", sans-serif;
+/* background-color:#f4f3ef; */
+background-color:#f5f4f2;
+}
+h1,h2,h3,h4,h5,h6 {margin:0;}
+p {text-align:justify; text-justify:distribute;}
+table {border-collapse:collapse; border-spacing:0; table-layout:fixed; border:1px solid #000;}
+th {border:1px solid #000;}
+td {border:1px solid #000;}
+a {outline:none; text-decoration:none;}
+.clear {clear:both;}
+input {vertical-align:middle;}
+
+/* ---------- main layout ---------- */
+.outerwpr {display:flex; flex-direction:column; min-height:100vh;}
+.main {flex:1;}
+
+.centerwpr {position:relative; margin:0 auto; padding:0 20px;
+max-width:980px; height:100%;
+}
+
+
+
+/* ---------- header ---------- */
+.header {height:44px; position:relative;
+/* background:linear-gradient(to right, #882da8 0%,#3d4dda 50%,#087ad5 100%);    */
+background:linear-gradient(to right, #9737b6 0%,#495be2 50%,#0a8bdd 100%);    
+box-shadow:0 2px 2px rgba(0,0,0,.2);
+}
+
+.header .centerwpr {display:flex; align-items:center; max-width:1130px;}
+
+.logo {display:block; position:relative; height:100%; 
+padding-right:10px; margin-right:10px;
+display:flex; align-items:center;
+}
+.logo:before,
+.logo:after {content:""; display:block; flex-shrink:0;
+background-repeat:no-repeat; background-size:auto 100%;
+background-position:center center;
+}
+.logo:before {width:38px; height:32px;
+background-image:url("../images/logo.png");    
+}
+.logo:after {width:84px; height:28px; margin-left:6px;
+background-image:url("../images/yeeebang.png");    
+}
+
+/* ---------- header: search ---------- */
+.search-control {position:relative;
+line-height:1;
+}
+
+/* siteSearchBar */
+#siteSearchBar {width:260px; height:30px; padding:0 12px 0 38px;
+font-family:inherit; line-height:26px; font-size:14px; color:#fff;
+background-color:rgba(0,0,0,.2);
+border:none; border-radius:15px;
+box-shadow:inset 0 2px 4px rgba(0,0,0,.28);
+box-sizing:border-box;
+position:relative; z-index:100;
+}
+/* #siteSearchBar:focus {background-color:rgba(0,0,0,.28);} */
+/* siteSearchBar */
+
+/* search-hint */
+.search-hint {pointer-events:none;
+position:absolute; left:0; top:0; z-index:110;
+width:100%; height:100%;
+display:flex; align-items:center;
+}
+.search-control .fas {
+position:absolute; top:50%;
+margin-top:-6px;
+font-size:16px; color:#beb1d7;
+}
+.search-control .fa-search {left:12px;}
+.search-control .fa-angle-down {right:12px;}
+
+.search-hint .placeholder {margin-left:38px;
+font-size:14px; color:#dfd8eb;
+}
+.search-control.input .search-hint .placeholder {display:none;}
+/* search-hint */
+
+/* siteSearchMenu */
+.search-menu {position:absolute; width:100%; left:0; top:33px;
+padding:0 4px; box-sizing:border-box;    
+display:none;
+}
+.active .search-menu {display:block;}
+
+.searchMenu--overlay {position:fixed; left:0; top:0; z-index:80;
+width:100%; height:100%;
+/* background-color:pink; opacity:0.5; cursor:pointer; */
+}
+#siteSearchMenu {width:100%; min-height:200px;
+position:relative; z-index:90;    
+/* position:absolute; left:0; top:32px; */
+background-color:rgba(255,255,255,.95);
+box-shadow:0 2px 4px rgba(0,0,0,.06);
+border-radius:4px;
+}
+/* siteSearchMenu */
+
+/* ---------- footer ---------- */
+.footer {height:40px; position:relative;
+background-color:#2c314e;    
+}
+.footer .centerwpr {display:flex; align-items:center; justify-content:center;
+max-width:1130px; height:100%;
+}
+
+.footer--rights {
+font-size:12px; line-height:1; color:#d0d6df;
+}
+
+
+/* ---------- main ---------- */
+
+
+
+/* --- size detection ---*/
+
+
+
+
