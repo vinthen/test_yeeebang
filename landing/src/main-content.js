@@ -5,8 +5,9 @@ export const createMainContent = (wrapper) => {
     mainContainer.classList.add('main');
 
     const htmlFragment = 
-    `<div class="centerwpr">
-
+    `<div class="banner"></div>
+    <div class="centerwpr">
+        
     </div>`;
 
     mainContainer.innerHTML = htmlFragment;
